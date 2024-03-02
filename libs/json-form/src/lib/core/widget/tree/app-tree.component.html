@@ -1,0 +1,102 @@
+<ng-container *ngIf="this.data.contextMenu">
+  <ng-container *ngIf="data.selectionMode === 'single'">
+    <p-toolbar *ngIf="data.showToolbar">
+      <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+    </p-toolbar>
+    <p-tree (onNodeExpand)="data.onNodeExpand ? data.onNodeExpand($event , service.findPosition($event, datasource)) : ''"
+            (onNodeSelect)="data.onClick ? data.onClick($event.node): '' "
+            [contextMenu]="cm" [filter]="true"
+            [value]="datasource"
+            filterMode="strict"
+            selectionMode="single"
+            [draggableNodes]="true" [droppableNodes]="true" draggableScope="self" droppableScope="self"
+            (onNodeDrop)="data.onNodeDrop ? data.onNodeDrop($event.dragNode,$event.dropNode) : ''"
+            (onNodeContextMenuSelect)="onRightClick($event.node)"
+            [emptyMessage]="' '"
+    >
+    </p-tree>
+    <p-contextMenu  #cm [model]="copyItems"  appendTo="body"></p-contextMenu>
+  </ng-container>
+  <ng-container *ngIf="data.selectionMode === 'checkbox'">
+    <p-toolbar *ngIf="data.showToolbar">
+      <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+    </p-toolbar>
+    <p-tree (onNodeExpand)="data.onNodeExpand ? data.onNodeExpand($event , service.findPosition($event, datasource)) : ''"
+            (onNodeSelect)="data.onClick ? data.onClick($event.node): '';data.onChecked ? data.onChecked(selectedNode): '' "
+            [(selection)]="selectedNode" [contextMenu]="cm"
+            [filter]="true"
+            [value]="datasource"
+            filterMode="strict"
+            selectionMode="checkbox"
+            [draggableNodes]="true" [droppableNodes]="true" draggableScope="self" droppableScope="self"
+            (onNodeDrop)="data.onNodeDrop ? data.onNodeDrop($event.dragNode,$event.dropNode) : ''"
+            (onNodeContextMenuSelect)="onRightClick($event.node)"
+            [emptyMessage]="' '"
+            >
+    </p-tree>
+    <p-contextMenu #cm [model]="copyItems" appendTo="body" ></p-contextMenu>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="!this.data.contextMenu">
+  <ng-container *ngIf="data.selectionMode === 'single'">
+    <p-toolbar *ngIf="data.showToolbar">
+      <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+    </p-toolbar>
+    <p-tree (onNodeExpand)="data.onNodeExpand ? data.onNodeExpand($event , service.findPosition($event, datasource)) : ''"
+            (onNodeSelect)="data.onClick ? data.onClick($event.node): '' "
+            [filter]="true" [value]="datasource"
+            filterMode="strict"
+            selectionMode="single"
+            [draggableNodes]="true" [droppableNodes]="true" draggableScope="self" droppableScope="self"
+            (onNodeDrop)="data.onNodeDrop ? data.onNodeDrop($event.dragNode,$event.dropNode) : ''"
+            [emptyMessage]="' '"
+            >
+    </p-tree>
+  </ng-container>
+  <ng-container *ngIf="data.selectionMode === 'checkbox'">
+    <p-toolbar *ngIf="data.showToolbar">
+      <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+    </p-toolbar>
+    <p-tree (onNodeExpand)="data.onNodeExpand ? data.onNodeExpand($event , service.findPosition($event, datasource)) : ''"
+            (onNodeSelect)="data.onClick ? data.onClick($event.node): '';data.onChecked ? data.onChecked(selectedNode): '' "
+            (onNodeUnselect)="data.onClick ? data.onClick($event.node): '';data.onChecked ? data.onChecked(selectedNode): '' "
+            [(selection)]="selectedNode" [filter]="true"
+            [value]="datasource"
+            filterMode="strict"
+            selectionMode="checkbox"
+            [draggableNodes]="true" [droppableNodes]="true" draggableScope="self" droppableScope="self"
+            (onNodeDrop)="data.onNodeDrop ? data.onNodeDrop($event.dragNode,$event.dropNode) : ''" [metaKeySelection]="true"
+            [emptyMessage]="' '"
+            >
+    </p-tree>
+  </ng-container>
+</ng-container>
+
+<ng-template #toolbar>
+  <div class="p-toolbar-group-start">
+    <button mat-icon-button (click)="data.onRefresh ? data.onRefresh(datasource): '' " class="material-icons-outlined toolbar-icon" matTooltip="بروز رسانی" [disabled]="datasource && datasource.length<0" matSuffix>
+      <fa-icon [icon]="iconEnum.refresh"></fa-icon>
+    </button>
+      <button mat-icon-button *ngIf="!showToggle" (click)="showToggleNode()" class="material-icons-outlined" matTooltip="باز کردن" [disabled]="datasource && datasource.length<0" matSuffix>
+        <fa-icon [icon]="iconEnum.squarePlus"></fa-icon>
+      </button>
+      <button mat-icon-button *ngIf="showToggle" (click)="showToggleNode()" class="material-icons-outlined" matTooltip="بستن" [disabled]="datasource && datasource.length<0" matSuffix>
+        <fa-icon [icon]="iconEnum.squareMinus"></fa-icon>
+      </button>
+      <ng-container *ngIf="data.selectionMode === 'checkbox'">
+        <button mat-icon-button *ngIf="!selectToggle" (click)="selectToggleNode()" class="material-icons-outlined" matTooltip="انتخاب همه" [disabled]="datasource && datasource.length<0" matSuffix>
+          <fa-icon [icon]="iconEnum.checkSquare"></fa-icon>
+        </button>
+        <button mat-icon-button *ngIf="selectToggle" (click)="selectToggleNode()" class="material-icons-outlined" matTooltip="عدم انتخاب همه" [disabled]="datasource && datasource.length<0" matSuffix>
+          <fa-icon [icon]="iconEnum.squareXmark"></fa-icon>
+        </button>  
+      </ng-container>
+      <ng-container *ngFor="let toolbar of data.toolbarMenu">
+        <button mat-icon-button (click)="toolbar.onClick()" class="material-icons-outlined toolbar-icon" [matTooltip]="toolbar.tooltip??''" [disabled]="datasource && datasource.length<0" matSuffix>
+          <fa-icon [icon]="toolbar.icon"></fa-icon>
+        </button>  
+      </ng-container>
+  </div>
+</ng-template>
+

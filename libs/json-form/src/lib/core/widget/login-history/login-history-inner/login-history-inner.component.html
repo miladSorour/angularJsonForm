@@ -1,0 +1,40 @@
+<!--begin::Wrapper-->
+<div data-kt-bookmark-element="wrapper">
+
+  <!--begin::Recently added-->
+  <div data-kt-bookmark-element="results">
+    <!--begin::Items-->
+    <div class="overflow-auto mh-200px mh-lg-325px pe-5">
+      <!--begin::Category title-->
+      <h3 class="fs-5 text-muted m-0 pb-5 d-flex" data-kt-bookmark-element="category-title">
+        سوابق ورود به سامانه
+      </h3>
+      <!--end::Category title-->
+      <!--begin::Item-->
+      <div *ngFor="let history of loginHistory | async as loginHistory; let i = index;" class="d-flex flex-stack mb-5">
+        <ng-container>
+          <span [ngClass]=" getBGColor(i) + ' bullet bullet-vertical h-40px'"></span>
+          <span class="m-0 text-center cursor-pointer mx-2">
+        {{history.browserName}}
+      </span>
+          <span class="m-0 text-center cursor-pointer mx-2">
+        {{history.operatingSystemName}}
+      </span>
+          <span class="m-0 text-center cursor-pointer mx-2">
+      {{history.userName}}
+    </span>
+          <span class="m-0 text-center cursor-pointer mx-2">
+      {{history.createdDate}}
+    </span>
+          <span>
+      <img [src]=getBrowserImg(history.browserType) alt="Browser-icon" width="32">
+    </span>
+        </ng-container>
+      </div>
+      <!--end::Item-->
+    </div>
+    <!--end::Items-->
+  </div>
+  <!--end::Recently added-->
+</div>
+<!--end::Wrapper-->

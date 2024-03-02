@@ -1,0 +1,30 @@
+image: 192.168.100.17:8083/node
+stages:
+  - build
+  - deploy
+
+variables:
+  #NEXUS_REGISTRY_URL: "http://192.168.100.17:8081/repository/npm-host/"
+  #$NPM_REGISTRY_URL: "http://192.168.100.17:8081/repository/npm-host/"
+  #NPM_AUTH_TOKEN: "your-base64-encoded-token"  # Replace with your actual base64-encoded token
+
+before_script:
+  #- echo "//${NEXUS_REGISTRY_URL}:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+  - npm install --force
+
+build:
+  stage: build
+  script:
+    - nx build json-form --skip-nx-cache --verbose
+    - nx build metronic-template --skip-nx-cache --verbose
+  tags:
+    - deployer
+
+deploy:
+  stage: deploy
+  script:
+    - npm publish --registry=http://192.168.100.17:8081/repository/npm-group/
+  only:
+    - master  # Trigger deployment only for the master branch
+  tags:
+    - deployer

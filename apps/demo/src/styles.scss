@@ -1,0 +1,29 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import '../../../node_modules/vazirmatn/misc/Farsi-Digits/Vazirmatn-FD-font-face.css';
+@import '../../../libs/metronic-template/assets/styles/css/style.rtl.css';
+@import '../../../libs/json-form/assets/styles/sass/core/base/material/material.scss';
+@import '../../../libs/json-form/assets/styles/sass/core/base/primeng/primeng.scss';
+@import '../../../libs/json-form/assets/styles/sass/plugins.scss';
+@import '../../../libs/json-form/assets/styles/sass/style.angular.scss';
+@import '../../../libs/metronic-template/assets/styles/css/splash-screen.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; 
+
+* {
+  font-family: 'Vazirmatn FD' !important;
+}
+
+body {
+  font-family: 'Vazirmatn FD' !important ;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Vazirmatn FD' !important;
+}
+

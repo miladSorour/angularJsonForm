@@ -1,0 +1,7 @@
+<form [formGroup]="inputForm">
+  <mat-slide-toggle [required]="isRequired || isInputControlRequired"
+                    [matTooltip]="tooltip"
+                    [(ngModel)]="value"
+                    formControlName="myInput">{{placeholder}}
+  </mat-slide-toggle>
+</form>

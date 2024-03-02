@@ -1,0 +1,28 @@
+<form [formGroup]="inputForm">
+  <mat-form-field style="width: 100%">
+    <mat-label>{{placeholder}}</mat-label>
+    <input formControlName="myInput"
+           [disabled]="isDisable"
+           [required]="isRequired || isInputControlRequired"
+           [readonly]="true"
+           [(ngModel)]="selectedTitle"
+           (input)="inputChange()"
+           matInput/>
+    <button type="button" mat-icon-button matSuffix>
+      <mat-icon style="color:#9f0b0b" matSuffix
+                (click)="clearInput()"><fa-icon [icon]="iconEnum.eraser" ></fa-icon>
+      </mat-icon>
+    </button>
+    <button type="button" mat-icon-button matSuffix>
+      <mat-icon matSuffix
+                (click)="onSuffixIconClicked()"><fa-icon [icon]="iconEnum.search" ></fa-icon>
+      </mat-icon>
+    </button>
+    <mat-error *ngIf="isControlHasError('myInput','bizError')">
+      {{this.inputForm.controls.myInput.getError('bizError').message}}
+    </mat-error>
+    <mat-error *ngIf="isParentControlHasError('required')">
+      {{placeholder}} <strong>{{ 'اجباری می باشد' }}</strong>.
+    </mat-error>
+  </mat-form-field>
+</form>

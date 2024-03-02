@@ -1,0 +1,102 @@
+<div class="mat-table-scroll outer-tree-table">
+	<table mat-table [dataSource]="dataSource" multiTemplateDataRows (matSortChange)="sortOuterTable($event)" matSort>
+		<ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns[0]; let i = index ">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header scope="col"> {{displayedHeader[0][i]}} </th>
+
+      <!--normal-->
+      <ng-container *ngIf="!column.type || cellType?.normal === column?.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)" scope="col"> {{column.displayHeader}}</th>
+        <td (click)="toggleRow(element)" *matCellDef="let element"
+            [ngClass]="getStringCallBackFunction(column.columnCSS, element)" mat-cell>
+					<span [ngClass]="getStringCallBackFunction(column.displayColumnCSS, element)" [matTooltip]="getStringCallBackFunction(column.tooltip, element)">
+            {{element.value[column]  | dynamicPipe : column?.pipe! : column?.pipeArg! }}
+					</span>
+        </td>
+      </ng-container>
+      <!--calculate-->
+      <ng-container *ngIf="cellType.calculate === column.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)" scope="col"> {{column.displayHeader}}</th>
+        <td (click)="toggleRow(element)" *matCellDef="let element"
+            [ngClass]="getStringCallBackFunction(column.columnCSS, element)"
+            mat-cell>
+          <ng-container [ngClass]="getStringCallBackFunction(column.displayColumnCSS, element)">
+            {{calcDisplayColumn(element, column.calcDisplayColumn) | dynamicPipe : column?.pipe! : column?.pipeArg! }}
+          </ng-container>
+        </td>
+      </ng-container>
+
+			<ng-container *ngIf="cellType.action === column.type">
+        <td *matCellDef="let element" mat-cell>
+          <div *ngIf="column && column.actions &&  column.actions.length > 0"
+               [ngClass]="'row-cols-' + getActionRowCol(column, element)">
+            <!-- inline action -->
+            <ng-container *ngFor="let action of column.actions">
+              <ng-container *ngIf="action.type === ActionType.inlineTableButton" >
+                <button
+                  *ngIf="!getBooleanCallBackFunction(action.hide, element)"
+                  [ngStyle]="{ 'color' : action.color}"
+                  (click)="actionClicked(action['onClick'], element)"
+                  [disabled]="getBooleanCallBackFunction(action['disabled'], element)"
+                  [ngClass]="getBooleanCallBackFunction(action['disabled'], element)? 'image-filter-with-opacity': ''"
+                  [color]=" action.color ?  action.color : 'warn' "
+                  mat-icon-button
+                  matTooltip="{{action['tooltip']}}"
+                  type="button">
+                  <fa-icon [icon]="action.icon" class="mat-icon-rtl-mirror"></fa-icon>
+                </button>
+              </ng-container>
+            </ng-container>
+            <!--dropDown action -->
+            <ng-container *ngIf="getDropDownAction(column.actions).length>0">
+              <button [mat-menu-trigger-for]="menu" mat-icon-button>
+                <fa-icon class="" [icon]="iconEnum.more"></fa-icon>
+              </button>
+            </ng-container>
+            <mat-menu #menu="matMenu">
+              <ng-container *ngFor="let action of getDropDownAction(column.actions)">
+                <button
+                  (click)="actionClicked(action['onClick'], element)"
+                  *ngIf="!getBooleanCallBackFunction(action.hide, element)"
+                  [disabled]="getBooleanCallBackFunction(action['disabled'], element)"
+                  [ngClass]="getBooleanCallBackFunction(action['disabled'], element)? 'image-filter-with-opacity': ''"
+                  [ngStyle]="{ 'color' : action.color}"
+                  mat-menu-item
+                  type="button">
+                  <fa-icon class="" [icon]="action.icon"></fa-icon>
+                  <span>{{' ' + action.title}}</span>
+                </button>
+              </ng-container>
+            </mat-menu>
+          </div>
+        </td>
+			</ng-container>
+		</ng-container>
+
+		<ng-container matColumnDef="expandedDetail">
+			<td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns[0].length">
+				<div class="example-element-detail" *ngIf="element.children?.length" [@detailExpand]="isExpanded(element)">
+					<div class="inner-table" *ngIf="isExpanded(element)">
+						<table #innerTables (matSortChange)="sortInnerTable($event, element)" class="mat-elevation-z3 inner-tree-table" mat-table [dataSource]="element.children" matSort>
+							<ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of displayedColumns[1]; let i = index">
+								<th mat-header-cell *matHeaderCellDef scope="col"	mat-sort-header> {{displayedHeader[1][i]}} </th>
+								<td mat-cell  *matCellDef="let element"> {{element.value[innerColumn]}} </td>
+							</ng-container>
+							<tr mat-header-row *matHeaderRowDef="displayedColumns[1]"></tr>
+							<tr mat-row *matRowDef="let row; columns: displayedColumns[1];"></tr>
+						</table>
+					</div>
+				</div>
+			</td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns[0]; sticky: true"></tr>
+		<tr mat-row *matRowDef="let element; columns: displayedColumns[0];"
+			[class.example-element-row]="element.children?.length"
+			[class.example-expanded-row]="isExpanded(element)">
+		</tr>
+		<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+	</table>
+</div>
+

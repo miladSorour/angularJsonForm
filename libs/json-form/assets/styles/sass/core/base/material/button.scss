@@ -1,0 +1,17 @@
+.mat-mdc-button{
+  color: var(--kt-table-active-color) !important;
+}
+
+.mat-mdc-button[disabled][disabled] {
+  --mdc-text-button-disabled-label-text-color: var(--kt-btn-link-disabled-color);
+  --mdc-text-button-label-text-color: var(--kt-btn-link-disabled-color);
+}
+
+.mat-mdc-raised-button[disabled][disabled] {
+  --mdc-protected-button-disabled-label-text-color: var(--kt-btn-link-disabled-color);
+  --mdc-protected-button-label-text-color: var(--kt-btn-link-disabled-color);
+}
+
+.mat-calendar-controls .mat-mdc-button {
+  color: #000000 !important;
+}

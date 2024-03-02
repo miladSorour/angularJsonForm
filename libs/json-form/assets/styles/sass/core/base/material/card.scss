@@ -1,0 +1,16 @@
+.mat-mdc-card {
+    --mdc-elevated-card-container-color: var(--kt-card-bg);
+    // border-radius: var(--mdc-elevated-card-container-shape);
+    // background-color: var(--mdc-elevated-card-container-color);
+    // border-width: 0;
+    // border-style: solid;
+    // border-color: var(--mdc-elevated-card-container-color);
+    // box-shadow: var(--mdc-elevated-card-container-elevation);
+    // --mdc-elevated-card-container-shape: 4px;
+    // --mdc-outlined-card-container-shape: 4px;
+    // --mdc-outlined-card-outline-width: 1px;
+}
+
+.mat-mdc-hint {
+color: var(--kt-table-active-color);
+}

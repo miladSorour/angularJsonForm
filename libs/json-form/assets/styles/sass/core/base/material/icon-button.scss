@@ -1,0 +1,33 @@
+.material-icons {
+  font-size: 18px !important;
+}
+
+.mat-icon {
+  z-index: 10000;
+  width: 18px !important;
+  height: 18px !important;
+  position: relative;
+}
+
+.mat-mdc-icon-button[disabled] {
+    .mat-mdc-paginator-decrement,
+    .mat-mdc-paginator-increment,
+    .mat-mdc-paginator-first,
+    .mat-mdc-paginator-last {
+      border-color: var(--kt-table-border-color);
+    }
+  }
+  
+  .mat-mdc-hint {
+    color: var(--kt-table-active-color);
+  }
+  
+  .mat-mdc-icon-button, .mat-mdc-icon-button.mat-mdc-button-base{
+    --mdc-icon-button-icon-size: 18px !important;
+    --mdc-icon-button-state-layer-size: 36px !important;
+    color: var(--kt-table-active-color);
+  }
+  
+  .mat-mdc-icon-button.mat-mdc-button-disabled.mat-mdc-button-disabled{
+    color: var(--kt-table-caption-color);
+  }

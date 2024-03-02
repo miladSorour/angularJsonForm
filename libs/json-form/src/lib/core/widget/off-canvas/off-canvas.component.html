@@ -1,0 +1,27 @@
+<!--begin::View component-->
+<div
+  id="kt_drawer_example_basic"
+  class="bg-white"
+  data-kt-drawer="true"
+  data-kt-drawer-activate="true"
+  data-kt-drawer-toggle="#kt_drawer_example_basic_button"
+  data-kt-drawer-close="#kt_drawer_example_basic_close"
+  data-kt-drawer-width="500px"
+>
+<div class="card w-100">
+  <div class="card-header">
+    <div class="card-title">
+      <h1 class="fs-5 fw-bolder">{{data.title}}</h1>
+    </div>
+
+    <div class="card-toolbar">
+      <app-button *ngIf="data.actions && data.actions.length > 0" [data]="data.actions"></app-button>
+    </div>
+  </div>
+  <div class="card-body">
+    <ng-container *ngIf="data && data.containerList" >
+      <app-json-form  [containerList]="data.containerList"></app-json-form>
+    </ng-container>
+  </div>
+</div>
+</div>

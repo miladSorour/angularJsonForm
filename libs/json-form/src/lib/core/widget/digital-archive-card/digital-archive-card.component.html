@@ -1,0 +1,71 @@
+<div class="col-12">
+    <div *ngFor="let doc of digitalArchiveList; let rownum = index"
+         class="card shadow-sm ">
+      <div class="card-header">
+        <div class="row row-cols-2 p-3">
+          <mat-checkbox [checked]="checkRow(doc.id!)" class="example-margin" formControlName="myInput">
+          </mat-checkbox>
+          <div class="card-toolbar text-end">
+            <app-button *ngIf="data.actions && data.actions.length > 0" [data]="data.actions"></app-button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="card-p mb-10">
+          <p *ngFor="let prop of validateItems(itemProperties); let i = index"
+             [ngClass]="{'grid-title': prop.key==='docTypeTopic'}">
+            <b *ngIf="prop.title">{{prop.title}} : </b>
+            {{doc[prop?.key!]}}
+          </p>
+          <div class="text-center px-4">
+            <img loading=lazy (click)="lightboxIndex = rownum"
+                 (error)="defaultImage($event,doc.fileType!)"
+                 [src]="'/api/DigitalArchive/getThumbnailFile/'+ doc.thumbnailCode"
+                 class="img-fluid rounded rounded-3">
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="row row-cols-4">
+           <span class="fw-bolder fs-6">
+                  {{doc.docIndex}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--<span>-->
+<!--          <fa-icon class="text-info cursor-pointer fs-3"-->
+<!--                   (click)="openSlider(doc.fileCode!);"-->
+<!--                   [icon]="iconEnum.eyeDropper"-->
+<!--          ></fa-icon>-->
+<!--          </span>-->
+<!--<span>-->
+<!--            <fa-icon class="text-warning cursor-pointer fs-3"-->
+<!--                     (click)="editDocumentDescription(doc)"-->
+<!--                     [icon]="iconEnum.edit">-->
+<!--            </fa-icon>-->
+<!--          </span>-->
+<!--<span *ngIf="!doc.deleted">-->
+<!--          <fa-icon class="text-danger cursor-pointer fs-3"-->
+<!--                   (click)="deleteDigitalArchiveById(doc.id)"-->
+<!--                   [icon]="iconEnum.trashCan">-->
+<!--          </fa-icon>-->
+<!--          </span>-->
+<!--<span *ngIf="doc.deleted">-->
+<!--            <fa-icon class="text-primary cursor-pointer fs-3"-->
+<!--                     (click)="restoreDigitalArchiveById(doc.id)"-->
+<!--                     [icon]="iconEnum.undo">-->
+<!--            </fa-icon>-->
+<!--          </span>-->
+<!--<span>-->
+<!--            <fa-icon class="text-primary cursor-pointer fs-3"-->
+<!--                     (click)="downloadFileByFileCode(doc.fileCode!,doc.fileName!)"-->
+<!--                     [icon]="iconEnum.fileDownload">-->
+<!--            </fa-icon>-->
+<!--          </span>-->
+
+
+

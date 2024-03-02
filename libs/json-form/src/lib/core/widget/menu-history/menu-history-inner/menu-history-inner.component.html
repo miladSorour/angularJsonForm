@@ -1,0 +1,47 @@
+<!--begin::Wrapper-->
+<div data-kt-bookmark-element="wrapper">
+
+  <!--begin::Recently added-->
+  <div data-kt-bookmark-element="results">
+    <!--begin::Items-->
+    <div class="overflow-auto mh-200px mh-lg-325px pe-5">
+      <!--begin::Category title-->
+      <h3 class="fs-5 text-muted m-0 pb-5 d-flex" data-kt-bookmark-element="category-title">
+        سوابق
+      </h3>
+      <!--end::Category title-->
+      <!--begin::Item-->
+      <div class="timeline">
+        <!-- begin::Item-->
+        <div class="timeline-item" *ngFor="let history of menuHistoryService.menuHistories; let i = index;" (click)="addToHistory(history.name, history.url)">
+          <!-- begin::Line-->
+          <div class="timeline-line w-40px"></div>
+          <!-- end::Line-->
+          <!-- begin::Icon-->
+          <div class="timeline-icon symbol symbol-circle symbol-40px me-4">
+            <div class="symbol-label bg-light">
+              <fa-icon [icon]="iconEnum.clock" [ngClass]=" getIndexColor(i) + ' fs-5'"></fa-icon>
+            </div>
+          </div>
+          <!-- end::Icon-->
+          <!-- begin::Text-->
+          <div class="timeline-content mb-5 mt-n1" >
+            <div class="d-flex flex-stack border border-dashed border-gray-300 rounded px-7 py-3 mb-5">
+              <span class="m-0 text-center text-hover-primary cursor-pointer mx-2 fw-bolder" [routerLink]="history.url">
+                {{history.name}}
+              </span>
+              <span class="btn btn-close p-2" (click)="menuHistoryService.removeHistory(history.name)">
+              </span>
+            </div>
+          </div>
+          <!-- end::Text-->
+        </div>
+        <!-- end::Item-->
+      </div>
+      <!--end::Item-->
+    </div>
+    <!--end::Items-->
+  </div>
+  <!--end::Recently added-->
+</div>
+<!--end::Wrapper-->

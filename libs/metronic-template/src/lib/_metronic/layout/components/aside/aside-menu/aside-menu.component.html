@@ -1,0 +1,380 @@
+<!-- Layout builder -->
+<div *ngIf="!appProduction" class="position-relative menu-item">
+  <a class="menu-link without-sub" routerLink="/builder" routerLinkActive="active" >
+    <span class="menu-icon">
+      <span [inlineSVG]="'./assets/media/icons/duotune/general/gen019.svg'" class="svg-icon svg-icon-2"></span>
+    </span>
+    <span class="menu-title" translate="MENU.LAYOUT_BUILDER"></span>
+  </a>
+    <app-bookmark-icon  class="position-absolute end-0 bottom-0 menu-link bookmark-icon"></app-bookmark-icon>
+</div>
+<!-- Menu with search -->
+
+<ng-container *ngIf="searchKey.length > 0" >
+  <!-- Separator -->
+  <div class="menu-item">
+    <div class="menu-content pt-8 pb-2">
+      <span class="menu-section text-muted text-uppercase fs-8 ls-1" translate="TRANSLATOR.Search_Result"></span>
+    </div>
+  </div>
+  <div *ngFor="let menuItem of searchMenuItems" class="position-relative menu-item">
+    <a class="menu-link without-sub ps-5" routerLinkActive="active" routerLink="{{menuItem?.route!}}" (click)="addToHistory(menuItem?.title!, menuItem?.route!)">
+            <span class="menu-icon">
+              <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen022.svg'"></span>
+            </span>
+      <span class="menu-title">{{menuItem.title}}</span>
+    </a>
+    <app-bookmark-icon [name]="menuItem.title" [url]="menuItem.route ? menuItem.route : ''" class="position-absolute top-0 end-0 bottom-0 menu-link bookmark-icon"></app-bookmark-icon>
+  </div>
+</ng-container>
+
+<!-- Menu without search -->
+<ng-container *ngIf="isSearch()">
+  <!-- Separator -->
+  <div class="menu-item">
+    <div class="menu-content pt-8 pb-2">
+      <span class="menu-section text-muted text-uppercase fs-8 ls-1" translate="MENU.Structure"></span>
+    </div>
+  </div>
+  <ng-container *ngFor="let child of menuItems">
+    <ng-container *ngIf="child.title" [ngTemplateOutlet]="megaMenu" [ngTemplateOutletContext]="{ item: child }"></ng-container>
+  </ng-container>
+  <ng-template #megaMenu let-item="item">
+    <div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show">
+    <span class="menu-link without-sub">
+        <a  *ngIf="item.children.length === 0" class="d-flex" routerLinkActive="active" routerLink="{{item.route}}" (click)="addToHistory(item.title, item.route)">
+          <span class="menu-icon">
+            <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen022.svg'"></span>
+          </span>
+          <span class="menu-title">{{item.title}}</span>
+        </a>
+      <span *ngIf="item.children.length > 0" class="menu-title">{{item.title}}</span>
+      <span *ngIf="item.children.length > 0" class="menu-arrow"></span>
+    </span>
+      <ng-container *ngIf="item.children.length > 0">
+        <ng-container *ngFor="let child of item.children">
+          <ng-container [ngTemplateOutlet]="subMenu" [ngTemplateOutletContext]="{item: child}"></ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-template>
+  <ng-template #subMenu let-item="item">
+    <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+      <ng-container *ngIf="item.children && item.children.length===0">
+        <div class="position-relative menu-item">
+          <a class="menu-link without-sub ps-5" routerLinkActive="active" routerLink="{{item.route}}" (click)="addToHistory(item.title, item.route)">
+            <span class="menu-bullet">
+              <span class="bullet bullet-dot"></span>
+            </span>
+            <span class="menu-title">{{item.title}}</span>
+          </a>
+          <app-bookmark-icon [name]="item.title" [url]="item.route" class="position-absolute top-0 end-0 bottom-0 menu-link bookmark-icon"></app-bookmark-icon>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="item.children && item.children.length>0">
+        <div class="menu-item menu-accordion" routerLinkActive="here show" data-kt-menu-trigger="click">
+          <span class="menu-link">
+            <span class="menu-bullet">
+              <span class="bullet bullet-dot"></span>
+            </span>
+            <span class="menu-title">{{item.title}}</span>
+            <span class="menu-arrow"></span>
+          </span>
+          <ng-container *ngFor="let child of item.children">
+            <ng-container *ngIf="child.title" [ngTemplateOutlet]="subMenu"
+                          [ngTemplateOutletContext]="{ item: child}">
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
+</ng-container>
+
+<!-- Separator -->
+<div *ngIf="!appProduction" class="menu-item">
+  <div class="menu-content pt-8 pb-2">
+    <span class="menu-section text-muted text-uppercase fs-8 ls-1" translate="MENU.Crafted"></span
+    >
+  </div>
+</div>
+
+<!-- Pages -->
+<div *ngIf="!appProduction" class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen022.svg'">
+      </span>
+    </span>
+    <span class="menu-title" translate="MENU.Pages"></span><span class="menu-arrow"></span></span>
+    <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+      <div class="menu-item menu-accordion" routerLinkActive="here show" data-kt-menu-trigger="click">
+        <span class="menu-link">
+          <span class="menu-bullet">
+            <span class="bullet bullet-dot"></span>
+          </span>
+          <span class="menu-title" data-link="/crafted/pages/profile" translate="TRANSLATOR.Profile"></span>
+          <span class="menu-arrow"></span>
+        </span>
+        <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+          <div class="position-relative menu-item">
+            <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/profile/overview"><span
+                class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+                class="menu-title">Overview</span></a>
+          </div>
+        </div>
+        <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+          <div class="position-relative menu-item">
+            <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/profile/projects"><span
+                class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+                class="menu-title">Projects</span></a>
+          </div>
+        </div>
+        <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+          <div class="position-relative menu-item">
+            <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/profile/campaigns"><span
+                class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+                class="menu-title">Campaigns</span></a>
+          </div>
+        </div>
+        <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+          <div class="position-relative menu-item">
+            <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/profile/documents"><span
+                class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+                class="menu-title">Documents</span></a>
+          </div>
+        </div>
+        <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+          <div class="position-relative menu-item">
+            <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/profile/connections"><span
+                class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+                class="menu-title">Connections</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+      <div class="menu-item menu-accordion" routerLinkActive="here show" data-kt-menu-trigger="click">
+        <span class="menu-link">
+          <span class="menu-bullet">'
+            <span class="bullet bullet-dot"></span>
+          </span>
+          <span class="menu-title" data-link="/crafted/pages/wizards" translate="TRANSLATOR.Wizards"></span>
+          <span class="menu-arrow"></span>
+        </span>
+        <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+          <div class="position-relative menu-item">
+            <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/wizards/horizontal">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Horizontal</span>
+            </a>
+          </div>
+        </div>
+        <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+          <div class="position-relative menu-item">
+            <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/wizards/vertical">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Vertical</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Accounts -->
+<div 
+  *ngIf="!appProduction"
+  class="menu-item menu-accordion"
+  data-kt-menu-trigger="click"
+  routerLinkActive="here show"
+>
+  <span class="menu-link"
+  ><span class="menu-icon"
+  ><span
+    class="svg-icon svg-icon-2"
+    [inlineSVG]="'./assets/media/icons/duotune/communication/com006.svg'"
+  ></span></span
+  ><span class="menu-title" data-link="/crafted/account" translate="MENU.Accounts"></span
+  ><span class="menu-arrow"></span
+  ></span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a
+        class="menu-link without-sub"
+        routerLinkActive="active"
+        routerLink="/crafted/account/overview"
+      ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span
+      ><span class="menu-title" translate="TRANSLATOR.Overview"></span></a
+      >
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a
+        class="menu-link without-sub"
+        routerLinkActive="active"
+        routerLink="/crafted/account/settings"
+      ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span
+      ><span class="menu-title" translate="TRANSLATOR.Settings"></span></a
+      >
+    </div>
+  </div>
+</div>
+
+<!-- Errors -->
+<div
+  *ngIf="!appProduction"
+  class="menu-item menu-accordion"
+  data-kt-menu-trigger="click"
+  routerLinkActive="here show"
+>
+  <span class="menu-link"
+  ><span class="menu-icon"
+  ><span
+    class="svg-icon svg-icon-2"
+    [inlineSVG]="'./assets/media/icons/duotune/general/gen040.svg'"
+  ></span></span
+  ><span class="menu-title" data-link="/error" translate="MENU.Errors"></span
+  ><span class="menu-arrow"></span
+  ></span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a
+        class="menu-link without-sub"
+        routerLink="/error/404"
+        routerLinkActive="active"
+      ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span
+      ><span class="menu-title" translate="TRANSLATOR.Error_404"></span></a
+      >
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a
+        class="menu-link without-sub"
+        routerLink="/error/500"
+        routerLinkActive="active"
+      ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span
+      ><span class="menu-title" translate="TRANSLATOR.Error_500"></span></a
+      >
+    </div>
+  </div>
+</div>
+
+<!-- Widgets -->
+<div
+  *ngIf="!appProduction"
+  class="menu-item menu-accordion"
+  data-kt-menu-trigger="click"
+  routerLinkActive="here show"
+>
+  <span class="menu-link"
+  ><span class="menu-icon"
+  ><span
+    class="svg-icon svg-icon-2"
+    [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"
+  ></span></span
+  ><span class="menu-title" data-link="/crafted/widgets" translate="MENU.Widgets"></span
+  ><span class="menu-arrow"></span
+  ></span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/widgets/lists"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Lists</span></a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/widgets/statistics"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Statistics</span></a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/widgets/charts"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Charts</span></a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/widgets/mixed"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Mixed</span></a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/widgets/tables"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Tables</span></a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/widgets/feeds"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Feeds</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- Separator -->
+<div *ngIf="!appProduction" class="menu-item">
+  <div class="menu-content pt-8 pb-2">
+    <span class="menu-section text-muted text-uppercase fs-8 ls-1" translate="TRANSLATOR.Apps"></span>
+  </div>
+</div>
+
+<!-- Chat -->
+<div *ngIf="!appProduction" class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/communication/com012.svg'"></span>
+    </span>
+    <span class="menu-title" data-link="/apps/chat" translate="MENU.Chat"></span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/apps/chat/private-chat">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title" translate="TRANSLATOR.Private_Chat"></span>
+      </a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/apps/chat/group-chat">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title" translate="TRANSLATOR.Group_Chat"></span>
+      </a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="position-relative menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/apps/chat/drawer-chat">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title" translate="TRANSLATOR.Drawer_Chat"></span>
+      </a>
+    </div>
+  </div>
+  </div>
+
+<!-- Separator -->
+<div *ngIf="!appProduction" class="menu-item">
+  <div class="menu-content">
+    <div class="separator mx-1 my-4"></div>
+  </div>
+</div>
+
+<!-- Changelog  -->
+<div *ngIf="!appProduction" class="menu-item">
+  <a target="_blank" class="menu-link" [href]="appPreviewChangelogUrl">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen005.svg'"></span>
+    </span>
+    <span class="menu-title">{{ "TRANSLATOR.CHANGELOG" | translate }} {{ appAngularVersion }}</span>
+  </a>
+</div>

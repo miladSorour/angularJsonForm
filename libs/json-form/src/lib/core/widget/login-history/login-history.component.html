@@ -1,0 +1,38 @@
+<div class="card-body overflow-auto">
+  <div class="card-title d-flex flex-stack">
+    <span class="fw-bolder fs-4">سوابق ورود به سامانه</span>
+    <div class="card-toolbar">
+      <a class="btn btn-sm text-primary p-0 fw-bold"
+         role="button" data-kt-menu-trigger="click" data-kt-menu-attach="parent"
+         data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
+        همه
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/general/gen053.svg'"
+          class="svg-icon svg-icon-3 text-primary"
+        ></span>
+        <app-login-history-inner class="mx-n12 my-n10" ></app-login-history-inner>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="loginHistory | async as loginHistory" class="d-flex flex-stack p-0">
+    <ng-container *ngIf="loginHistory.length > 0">
+      <span class="bullet bullet-vertical h-40px bg-success"></span>
+      <span class="m-0 text-center text-hover-primary cursor-pointer mx-2">
+        {{loginHistory[0].browserName}}
+      </span>
+      <span class="m-0 text-center text-hover-primary cursor-pointer mx-2">
+        {{loginHistory[0].operatingSystemName}}
+      </span>
+      <span class="text-hover-primary m-0 text-center cursor-pointer mx-2">
+      {{loginHistory[0].userName}}
+    </span>
+      <span class="text-hover-primary m-0 text-center cursor-pointer mx-2">
+      {{loginHistory[0].createdDate}}
+    </span>
+      <span>
+      <img [src]=getBrowserImg(loginHistory[0].browserType) alt="Google-Chrome-icon" width="32">
+    </span>
+    </ng-container>
+  </div>
+</div>

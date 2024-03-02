@@ -1,0 +1,89 @@
+
+.container {
+    width: 100%;
+    margin: 0;
+    padding: 5px 0;
+    --border-color:var(--kt-table-border-color);
+  }
+  
+  .switch {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-color: var(--border-color);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    justify-content: center;
+    top:50%;
+    box-sizing: border-box;
+  }
+  
+  .switch:hover {
+    --border-color:var(--kt-table-hover-color);
+  }
+
+  .switch input {
+    display: none;
+  }
+  
+  .switch label {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    z-index: 20;
+    user-select: none;
+  }
+  
+  .switch .slider {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 66.666666666666666666666666666667px;
+    height: 100%;
+    background-color: #673ab7;
+    transition: left 0.2s ease-in-out;
+    z-index: 10;
+  }
+
+  .switch label[for=switch1]>span{
+    border-left: 0.5px solid var(--border-color);
+    display:block
+  }
+
+  .switch label[for=switch2]>span{
+    border-left: 0.5px solid var(--border-color);
+    border-right: 0.5px solid var(--border-color);
+    display:block
+  }
+
+  .switch label[for=switch3]>span{
+    border-right: 0.5px solid var(--border-color);
+    display:block
+  }
+  
+  #switch1:checked ~ .slider {
+    left: calc(200% / 3);
+  }
+  
+  #switch2:checked ~ .slider {
+    left: calc(100% / 3);
+  }
+  
+  #switch3:checked ~ .slider {
+    left: 0%;
+  }
+
+  #switch1:checked ~ label[for=switch1] {
+    color:#fff
+  }
+  
+  #switch2:checked ~ label[for=switch2] {
+    color:#fff
+  }
+  
+  #switch3:checked ~ label[for=switch3] {
+    color:#fff
+  }

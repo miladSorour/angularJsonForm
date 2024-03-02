@@ -1,0 +1,39 @@
+<!-- begin::Row -->
+<div class="row mb-3" style="height: 49%;">
+  <div class="col-sm-12 col-xxl-5 mb-5 mb-xxl-0">
+    <app-carousel class="card card-xxl-stretch"></app-carousel>
+  </div>
+  <div class="col-sm-12 col-xxl-7">
+    <div class="row h-100">
+      <div class="d-none d-md-block col-md-6 col-lg-5">
+        <app-person-card class="card h-100" ></app-person-card>
+      </div>
+      <div class="col-12 col-md-6 col-lg-7 pb-5">
+        <app-history1 class="card h-50">
+        </app-history1>
+        <app-menu-history class="card h-50 mt-5">
+        </app-menu-history>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end::Row -->
+<!-- begin::Row-->
+<div class="row mb-3">
+  <div class="col">
+    <app-line-chart [chartData]="chartData" class="d-none card card-xxl-stretch"></app-line-chart>
+  </div>
+</div>
+<!-- end::Row -->
+
+<!-- begin::Row -->
+<div class="row" style="height: 50%;">
+  <div class="col-sm-12 order-sm-2 col-lg-5">
+    <app-text-area class="card card-xxl-stretch h-100"></app-text-area>
+  </div>
+  <div class="col-sm-12 mb-sm-5 mb-lg-0 order-lg-2 col-lg-7 ">
+    <app-tasks class="card card-xxl-stretch h-100"></app-tasks>
+  </div>
+</div>
+<!-- end::Row -->
+

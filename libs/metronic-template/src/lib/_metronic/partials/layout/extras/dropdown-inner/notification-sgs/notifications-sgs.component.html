@@ -1,0 +1,49 @@
+<div
+  class="d-flex flex-column flex-center bgi-no-repeat rounded-top px-9 py-10"
+  [style.background-image]="'url(./assets/media/misc/pattern-1.jpg)'"
+>
+  <h3
+    class="text-white fw-bold mb-3">
+    صندوق پیام های کاربر</h3>
+  <span
+    class="badge bg-primary py-2 px-3">
+    {{this.getNotificationCount()}}
+    پیام در صندوق شما وجود دارد</span>
+</div>
+
+<div class="row g-0">
+  <div *ngFor="let notif of notifications"
+       class="col-6 d-flex flex-stack border bg-hover-light px-2 py-2">
+    <span
+      (click)="navigateTo(notif.route)"
+      class="fs-5 fw-bold text-gray-800 mb-0">{{notif.title}}</span>
+    <span
+      class="fs-8 badge badge-circle badge-light-danger">
+      {{notif.order}}</span>
+  </div>
+  <div
+    (click)="reloadNotifications()"
+    class="col-6 d-flex flex-stack border bg-hover-light cursor-pointer px-2 py-2">
+    <span
+      class="fs-5 fw-bold text-gray-800 mb-0">
+      به روز رسانی کارهای شما</span>
+
+    <span
+      [inlineSVG]="'./assets/media/icons/duotune/arrows/arr029.svg'"
+      class="fs-8 ms-2 badge badge-sm badge-circle badge-light-primary"></span>
+  </div>
+</div>
+<div class="py-2 text-center border-top">
+  <a
+    routerLink="/crafted/pages/profile"
+    class="btn btn-color-gray-600 btn-active-color-primary"
+  >
+    <span
+      [inlineSVG]="'./assets/media/icons/duotune/arrows/arr064.svg'"
+      class="svg-icon svg-icon-5"
+    ></span>
+    مشاهده تمامی وظایف
+  </a>
+</div>
+
+

@@ -1,0 +1,18 @@
+.mat-mdc-slide-toggle {
+    --mdc-theme-text-primary-on-background: var(--kt-table-active-color)
+    --mdc-switch-selected-focus-state-layer-color: #8e76b8 !important;
+    --mdc-switch-selected-handle-color: #8e76b8 !important;
+    --mdc-switch-selected-hover-state-layer-color: #8e76b8 !important;
+    --mdc-switch-selected-pressed-state-layer-color: #8e76b8 !important;
+    --mdc-switch-selected-focus-handle-color: #673ab7 !important;
+    --mdc-switch-selected-hover-handle-color: #673ab7 !important;
+    --mdc-switch-selected-pressed-handle-color: #673ab7 !important;
+    --mdc-switch-selected-focus-track-color: #8e76b8 !important;
+    --mdc-switch-selected-hover-track-color: #8e76b8 !important;
+    --mdc-switch-selected-pressed-track-color: #8e76b8 !important;
+    --mdc-switch-selected-track-color: #8e76b8 !important;
+  }
+
+  .mdc-switch{
+    --mdc-switch-state-layer-size: 0 !important;
+  }

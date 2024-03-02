@@ -1,0 +1,23 @@
+<form [formGroup]="inputForm">
+  <mat-form-field>
+    <mat-slider formControlName="myInput"
+                [matTooltip]="tooltip"
+                [disabled]="isDisable"
+                [required]="isRequired || isInputControlRequired"
+                [(ngModel)]="value"
+                [displayWith]="formatLabel"
+                thumbLabel
+                tickInterval="1000"
+                step="1000"
+                min="0"
+                max="100000"
+                aria-label="units"></mat-slider>
+    <mat-error *ngIf="isControlHasError('myInput','bizError')">
+      {{this.inputForm.controls.myInput.getError('bizError').message}}
+    </mat-error>
+    <mat-error *ngIf="isParentControlHasError('required')">
+      {{placeholder}} <strong>{{ 'اجباری می باشد' }}</strong>.
+    </mat-error>
+    <input disabled [placeholder]="placeholder" matInput/>
+  </mat-form-field>
+</form>

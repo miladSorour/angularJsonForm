@@ -1,0 +1,199 @@
+import {
+  Component,
+  DoCheck,
+  EventEmitter,
+  Input,
+  KeyValueDiffer,
+  KeyValueDiffers,
+  OnChanges,
+  OnInit,
+  Optional,
+  Output,
+  Self,
+  SimpleChanges
+} from '@angular/core';
+import {FormBuilder, FormGroup, NgControl} from '@angular/forms';
+import {AppBaseInputModel} from '../app-base-input.model';
+import {AppInputBaseConfig} from '../app-input-base-config';
+import {BaseInformationHeader} from "./baseInformation-header.model";
+import {BaseInformationService} from "../input-base-Information/baseInformation.service";
+import { MatSelectChange } from '@angular/material/select';
+import {AppFormConfig} from '../../form/app-form.config';
+import {AppFormControlModel} from '../../form/app-form-control.model';
+import { IconEnum } from '../../../enum/icon.enum';
+
+
+@Component({
+  selector: 'app-input-base-information-header',
+  templateUrl: './input-base-information-header.component.html'
+})
+export class InputBaseInformationHeaderComponent extends AppBaseInputModel<AppInputBaseConfig> implements DoCheck, OnInit, OnChanges {
+
+  /**
+   * these arent real inputs, we are getting child directives as a input
+   * please do not add another input
+   */
+  @Input() disabled: any;
+  @Input() readonly: any;
+  @Input() required: any;
+  @Input() placeholder: string;
+  @Input() tooltip: string;
+  @Input() suffixIcon: string;
+  @Input() suffixIconClicked: any;
+  @Input() multiple: any;
+  @Output() valueChange = new EventEmitter();
+  baseInfoHeaders: EventEmitter<BaseInformationHeader []> = new EventEmitter<BaseInformationHeader[]>();
+  differ: KeyValueDiffer<string, any>;
+  isDisable = false;
+  isRequired = false;
+  isInputControlRequired = false;
+  isReadOnly = false;
+  isMultiple = false;
+  inputForm: FormGroup;
+  iconEnum =  IconEnum;
+
+  constructor(
+    @Self() @Optional() public control: NgControl,
+    private baseInformationService: BaseInformationService,
+    private differs: KeyValueDiffers,
+    private formBuilder: FormBuilder) {
+    super();
+    this.differ = this.differs.find({}).create();
+    this.control.valueAccessor = this;
+  }
+
+  ngOnInit(): void {
+    this.isInputRequired();
+    if (!this.isRequired) {
+      this.isControlRequired();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.inputForm) {
+      this.initForm();
+    }
+
+    if (changes.readonly) {
+      this.isInputReadOnly();
+    }
+    if (changes.multiple) {
+      this.isInputMultiple();
+    }
+    if (changes.required) {
+      this.isInputRequired();
+    }
+    this.baseInformationService.getAllBaseInformationHeader().subscribe((items) => {
+      this.baseInfoHeaders.next(items);
+    });
+  }
+
+  ngDoCheck(): void {
+    this.disabledInput();
+    const change = this.differ.diff(this);
+    if (change) {
+      change.forEachChangedItem(item => {
+        if (item.key === '_value' && item.currentValue === null) {
+          this.inputForm.reset();
+        }
+      });
+    }
+  }
+
+  inputChange() {
+    this.valueChange.emit(this.value);
+    this.control.control?.markAsTouched();
+  }
+
+  clearInput() {
+    this.value = null;
+  }
+
+  onSuffixIconClicked() {
+    return this.suffixIconClicked(this.value);
+  }
+
+  /**
+   * Checking control validation
+   *
+   * @param controlName: string => Equals to formControlName
+   * @param validationType: string => Equals to validators name
+   */
+  isControlHasError(controlName: string, validationType: string): boolean {
+    const control = this.inputForm.controls[controlName];
+    if (!control) {
+      return false;
+    }
+    if (control.hasError(validationType) && (control.dirty || control.touched)) {
+      // @ts-ignore
+      this.control.control.setErrors({[validationType]: true});
+    }
+    return control.hasError(validationType) && (control.dirty || control.touched);
+  }
+
+  /**
+   * Checking parent control validation
+   *
+   * @param validationType string => Equals to validators name
+   */
+  isParentControlHasError(validationType: string) {
+    const error = this.control.getError(validationType);
+    if (!error) {
+      return false;
+    }
+    return error && (this.control.dirty || this.control.touched);
+
+  }
+
+  private initForm() {
+    this.inputForm = this.formBuilder.group({
+      myInput: ['']
+    });
+  }
+
+  private isControlRequired(): void {
+    if (this.control && this.control.errors && this.control.errors.hasOwnProperty('required')) {
+      this.isInputControlRequired = this.control.errors.required;
+    }
+  }
+
+  private isInputRequired(): void {
+    if (this.required === '') {
+      this.isRequired = true;
+    } else if (this.required !== undefined) {
+      this.isRequired = this.required;
+    }
+  }
+
+  private isInputDisabled(): void {
+    if (this.disabled === '') {
+      this.isDisable = true;
+    } else if (this.disabled !== undefined) {
+      this.isDisable = this.disabled;
+    }
+  }
+
+  private isInputReadOnly(): void {
+    if (this.readonly === '') {
+      this.isReadOnly = true;
+    } else if (this.readonly !== undefined) {
+      this.isReadOnly = this.readonly;
+    }
+  }
+
+  private isInputMultiple(): void {
+    if (this.multiple === '') {
+      this.isMultiple = true;
+    } else if (this.multiple !== undefined) {
+      this.isMultiple = this.multiple;
+    }
+  }
+
+  onSelectionChange($event: MatSelectChange) {
+    let appFormConfig: AppFormConfig = this.appFormConfig;
+    const selectedTitleCol = appFormConfig.formControl.find((control: AppFormControlModel) => control.name === this.control.name);
+    if (selectedTitleCol && selectedTitleCol.onChangeValue) {
+      selectedTitleCol.onChangeValue($event)
+    }
+  }
+}

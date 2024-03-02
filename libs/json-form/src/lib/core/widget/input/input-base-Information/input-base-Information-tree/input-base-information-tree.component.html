@@ -1,0 +1,25 @@
+<form [formGroup]="inputForm">
+  <ng-container>
+    <mat-form-field class="w-100">
+      <mat-label>{{placeholder}}</mat-label>
+      <input formControlName="myInput"
+             [required]="isRequired || isInputControlRequired"
+             [readonly]="true"
+             [(ngModel)]="selectedTitle"
+             (input)="inputChange()"
+             matInput/>
+      <mat-icon class="material-icons-outlined" matSuffix
+                (click)="onSuffixIconClicked()">
+        <fa-icon [icon]="iconEnum.search"></fa-icon>
+      </mat-icon>
+      <mat-error *ngIf="isControlHasError('myInput','bizError')">
+        {{this.inputForm.controls.myInput.getError('bizError').message}}
+      </mat-error>
+      <mat-error *ngIf="isParentControlHasError('required')">
+        {{placeholder}} <strong>{{ 'اجباری می باشد' }}</strong>.
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
+</form>
+
+

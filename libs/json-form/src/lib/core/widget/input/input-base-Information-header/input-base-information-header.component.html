@@ -1,0 +1,35 @@
+<form [formGroup]="inputForm">
+  <ng-container *ngIf="!isMultiple">
+    <mat-form-field style="width: 100%">
+      <mat-label>{{placeholder}}</mat-label>
+      <mat-select
+        formControlName="myInput"
+        [(ngModel)]="value"
+        [matTooltip]="tooltip"
+        (blur)="onBlur($event)"
+        [disabled]="disabled"
+        (selectionChange)="onSelectionChange($event)"
+        [required]="required">
+        <mat-option [value]="">
+          --
+        </mat-option>
+        <mat-option *ngFor="let item of baseInfoHeaders | async" [value]="item.id">
+          {{item.topic}}
+        </mat-option>
+      </mat-select>
+      <mat-icon *ngIf="suffixIconClicked" [ngClass]="suffixIconClicked? 'hover_text': ''" matSuffix
+                (click)="onSuffixIconClicked()">{{suffixIcon}}</mat-icon>
+      <mat-error *ngIf="isControlHasError('myInput','bizError')">
+        {{this.inputForm.controls.myInput.getError('bizError').message}}
+      </mat-error>
+      <mat-error *ngIf="isParentControlHasError('required')">
+        {{placeholder}} <strong>{{ 'اجباری می باشد' }}</strong>.
+      </mat-error>
+      <mat-error *ngIf="isControlHasError('myInput','pattern')">
+        الگوی ورود اطلاعات برای  {{placeholder}} رعایت نشده است.
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
+</form>
+
+

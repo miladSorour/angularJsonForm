@@ -1,0 +1,29 @@
+<form [formGroup]="inputForm">
+  <mat-form-field style="width: 100%">
+    <mat-label>{{placeholder}}</mat-label>
+    <input #input           
+           type="text"
+           formControlName="myInput"
+           [(ngModel)]="selectedTitle"
+           [matAutocomplete]="auto"
+           [matTooltip]="tooltip"
+           [disabled]="disabled"
+           [required]="required  || isInputControlRequired"
+           (input)="filterLocation()"
+           (focus)="filterLocation()"
+           matInput
+           >   
+    <mat-autocomplete requireSelection #auto="matAutocomplete"  (optionSelected)="onSelectionChange($event)"(opened)="openedLocation()">
+      <mat-option *ngFor="let option of locationList" [value]="option">
+        {{option.title}}
+      </mat-option>
+    </mat-autocomplete>
+    <button type="button" mat-icon-button matSuffix>
+      <mat-icon class="material-icons-outlined " style="color:#9f0b0b;" matSuffix
+                (click)="clearInput();$event.stopPropagation()"><fa-icon [icon]="iconEnum.eraser" ></fa-icon>
+      </mat-icon>
+    </button>  
+  </mat-form-field>
+</form>
+
+

@@ -1,0 +1,12 @@
+.mat-expansion-panel {
+  --mat-expansion-container-background-color: var(--kt-accordion-bg);
+  --mat-expansion-container-text-color: var(--kt-accordion-color);
+}
+
+.mat-expansion-panel-header-title {
+  --mat-expansion-header-text-color: var(--kt-accordion-color);
+}
+
+.mat-expansion-panel-header-description {
+  --mat-expansion-header-description-color: var(--kt-accordion-color);
+}

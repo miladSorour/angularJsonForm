@@ -1,0 +1,41 @@
+table {
+	width: 100% !important;
+}
+
+tr.example-detail-row {
+	height: 0 !important;
+}
+
+.example-element-row td {
+	border-bottom-width: 0 !important;
+}
+
+.example-element-detail {
+	overflow: hidden !important;
+	display: flex !important;
+}
+
+.example-element-diagram {
+	min-width: 80px !important;
+	border: 2px solid black !important;
+	font-weight: lighter !important;
+}
+
+.example-element-symbol {
+
+}
+
+.example-element-description {
+}
+
+.example-element-description-attribution {
+	opacity: 0.5 !important;
+}
+
+.inner-table {
+	width: 100% !important;
+}
+
+.inner-table mat-form-field {
+	width: 100% !important;
+}

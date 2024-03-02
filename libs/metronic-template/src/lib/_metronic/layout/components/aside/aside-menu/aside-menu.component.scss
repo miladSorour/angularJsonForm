@@ -1,0 +1,18 @@
+.menu-item .bookmark-icon{
+  display: none;
+}
+
+.menu-item:hover .bookmark-icon{
+  display: block;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.menu-item:hover .bookmark-icon:hover{
+  opacity: 1;
+  z-index: 1;
+}
+
+.menu-item:hover .bookmark-icon:focus{
+  color: #5d78ff;
+}

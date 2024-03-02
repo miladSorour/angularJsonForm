@@ -1,0 +1,17 @@
+.p-toolbar{
+  padding: 0.5em;
+  background-color: var(--kt-table-bg);
+  border: 2px solid var(--kt-table-border-color);
+}
+
+.p-toolbar button{
+  cursor: pointer;
+  color: var(--kt-text-muted);
+}
+
+.p-toolbar button:hover{
+  color: var(--kt-component-hover-color);
+  transform: scale(1.1);
+  transition:transform 0.3s ;
+}
+

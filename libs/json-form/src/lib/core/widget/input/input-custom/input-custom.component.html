@@ -1,0 +1,24 @@
+<form [formGroup]="inputForm">
+  <mat-form-field style="width: 100%">
+    <mat-label>{{placeholder}}</mat-label>
+    <input formControlName="myInput"
+           [disabled]="isDisable"
+           [required]="isRequired || isInputControlRequired"
+           [readonly]="true"
+           [(ngModel)]="selectedTitle"
+           (input)="inputChange()"
+           matInput/>
+    <button type="button" mat-icon-button matSuffix>
+      <mat-icon class="material-icons-outlined " style="color:#9f0b0b;" matSuffix
+                (click)="clearInput()"><fa-icon [icon]="iconEnum.eraser" ></fa-icon>
+      </mat-icon>
+    </button>
+    <button type="button" mat-icon-button matSuffix>
+      <mat-icon class="material-icons-outlined " matSuffix
+                (click)="onSuffixIconClicked()"><fa-icon [icon]="iconEnum.search" ></fa-icon>
+      </mat-icon>
+    </button>
+
+  </mat-form-field>
+</form>
+

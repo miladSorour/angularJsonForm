@@ -1,0 +1,72 @@
+<form [formGroup]="inputForm">
+  <div *ngIf="!gregorian">
+    <mat-form-field style="width: 100%">
+      <mat-label>{{placeholder}}</mat-label>
+      <input formControlName="myInput" #dateInput
+             [min]="minDate"
+             [max]="maxDate"
+             [matTooltip]="tooltip"
+             [placeholder]="placeholder"
+             [disabled]="isDisable"
+             [required]="isRequired || isInputControlRequired"
+             [readonly]="true"
+             [(ngModel)]="value"
+             (dateChange)="dateChange()"
+             matInput [matDatepicker]="picker">
+             <button type="button" style="bottom: 3px;" mat-icon-button matSuffix>
+              <mat-icon class="material-icons-outlined " style="color:#9f0b0b;" matSuffix
+                        (click)="clearInput()"><fa-icon [icon]="iconEnum.eraser" ></fa-icon>
+              </mat-icon>
+            </button>        
+      <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="!isReadOnly"></mat-datepicker-toggle>
+      <mat-datepicker #picker ></mat-datepicker>
+      <mat-icon *ngIf="suffixIconClicked" class="d-inline-block" [ngClass]="suffixIconClicked? 'hover_text': ''" matSuffix
+                (click)="onSuffixIconClicked()">{{suffixIcon}}</mat-icon>
+      <mat-error *ngIf="isControlHasError('myInput','bizError')">
+        {{this.inputForm.controls.myInput.getError('bizError').message}}
+      </mat-error>
+      <mat-error *ngIf="isParentControlHasError('required')">
+        {{placeholder}} <strong>{{ 'اجباری می باشد' }}</strong>.
+      </mat-error>
+      <mat-error *ngIf="isControlHasError('myInput','pattern')">
+        الگوی ورود اطلاعات برای  {{placeholder}} رعایت نشده است.
+      </mat-error>
+    </mat-form-field>
+<!--    <button mat-button (click)="datepickerChange()">میلادی</button>-->
+  </div>
+  <div *ngIf="gregorian">
+    <mat-form-field style="width: 100%">
+      <mat-label>{{placeholder}}</mat-label>
+      <input formControlName="myInput" #dateInput
+             [min]="minDate"
+             [max]="maxDate"
+             [matTooltip]="tooltip"
+             [placeholder]="placeholder"
+             [disabled]="isDisable"
+             [required]="isRequired || isInputControlRequired"
+             [readonly]="true"
+             [(ngModel)]="value"
+             (dateChange)="dateChange()"
+             matInput [matDatepicker]="gregorianPicker">
+             <button type="button" mat-icon-button matSuffix>
+              <mat-icon class="" style="color:#9f0b0b;" matSuffix
+                        (click)="clearInput()"><fa-icon [icon]="iconEnum.eraser" ></fa-icon>
+              </mat-icon>
+            </button>  
+      <mat-datepicker-toggle matSuffix [for]="gregorianPicker" *ngIf="!isReadOnly"></mat-datepicker-toggle>
+      <mat-datepicker #gregorianPicker></mat-datepicker>
+      <mat-icon *ngIf="suffixIconClicked" class="d-inline-block" [ngClass]="suffixIconClicked? 'hover_text': ''" matSuffix
+                (click)="onSuffixIconClicked()">{{suffixIcon}}</mat-icon>
+      <mat-error *ngIf="isControlHasError('myInput','bizError')">
+        {{this.inputForm.controls.myInput.getError('bizError').message}}
+      </mat-error>
+      <mat-error *ngIf="isParentControlHasError('required')">
+        {{placeholder}} <strong>{{ 'اجباری می باشد' }}</strong>.
+      </mat-error>
+      <mat-error *ngIf="isControlHasError('myInput','pattern')">
+        الگوی ورود اطلاعات برای  {{placeholder}} رعایت نشده است.
+      </mat-error>
+    </mat-form-field>
+<!--    <button mat-button (click)="datepickerChange()">شمسی</button>-->
+  </div>
+</form>

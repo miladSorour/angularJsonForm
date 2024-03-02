@@ -1,0 +1,28 @@
+<!--begin::Wrapper-->
+<div data-kt-bookmark-element="wrapper">
+
+  <!--begin::Recently added-->
+  <div data-kt-bookmark-element="results">
+    <!--begin::Items-->
+    <div class="scroll-y mh-200px mh-lg-325px">
+      <!--begin::Category title-->
+      <h3 class="fs-5 text-muted m-0 pb-5" data-kt-bookmark-element="category-title" translate="TRANSLATOR.Bookmarks">
+      </h3>
+      <!--end::Category title-->
+      <!--begin::Item-->
+      <div *ngFor="let bookmark of bookmarkService.bookmarks" class="position-relative menu-item">
+          <span class="menu-link" [routerLink]="bookmark.url">
+            <span class="menu-icon">
+              <span [inlineSVG]="'./assets/media/icons/duotune/general/gen003.svg'" class="svg-icon"></span>
+            </span>
+            <span class="menu-title m-0 text-center text-hover-primary cursor-pointer mx-2 fw-bolder">{{bookmark.name}}</span>
+          </span>
+            <span class="position-absolute end-0 bottom-0 btn btn-close" (click)="bookmarkService.removeBookmark(bookmark.name)"></span>
+      </div>
+      <!--end::Item-->
+    </div>
+    <!--end::Items-->
+  </div>
+  <!--end::Recently added-->
+</div>
+<!--end::Wrapper-->

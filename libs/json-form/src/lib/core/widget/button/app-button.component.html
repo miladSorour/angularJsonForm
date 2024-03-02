@@ -1,0 +1,39 @@
+<ng-container *ngFor="let action of data">
+  <ng-container
+    *hasAuthority="getStringCallBackFunction(action.hasAuthority, action)"
+  >
+    <ng-container *ngIf="action.id !== 'searchBox'">
+      <ng-container *ngIf="action.color === 'primary'">
+        <button
+          (click)="action.onClick ? action.onClick() : ''"
+          type="button"
+          class="btn btn-primary"
+          [disabled]="getBooleanCallBackFunction(action?.disabled)"
+          [id]="action.id ? action.id : ''"
+        >
+          {{ action.title }}
+        </button>
+      </ng-container>
+      <ng-container *ngIf="action.color !== 'primary'">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="action.onClick ? action.onClick() : ''"
+          [disabled]="getBooleanCallBackFunction(action?.disabled)"
+          [id]="action.id ? action.id : ''"
+        >
+          {{ action.title }}
+        </button>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="action.id === 'searchBox'">
+    <button type="button"
+            class="btn btn-simple-primary"
+            [disabled]="getBooleanCallBackFunction(action?.disabled)"
+            data-bs-toggle="collapse"
+            href="#searchBox">
+      {{action.title}}
+    </button>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,30 @@
+<div class="card-body overflow-auto">
+  <div class="card-title d-flex flex-stack">
+    <span class="fw-bolder fs-4">سوابق</span>
+    <div class="card-toolbar">
+      <a class="btn btn-sm text-primary p-0 fw-bold"
+         role="button" data-kt-menu-trigger="click" data-kt-menu-attach="parent"
+         data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
+        همه
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/general/gen053.svg'"
+          class="svg-icon svg-icon-3 text-primary"
+        ></span>
+        <app-menu-history-inner class="mx-n12 my-n10" ></app-menu-history-inner>
+      </a>
+    </div>
+  </div>
+  <div class="row row-cols-2 p-0">
+    <ng-container *ngFor="let history of menuHistoryService.menuHistories; let i = index;"
+                  (click)="addToHistory(history.name, history.url)">
+      <div class="d-flex align-items-center" *ngIf="i<2">
+        <span class="bullet bullet-vertical h-40px" [ngClass]=" getIndexBgColor(i) "></span>
+        <span class="m-0 text-center text-hover-primary cursor-pointer mx-2 fw-bolder" [routerLink]="history.url">
+        {{history.name}}
+      </span>
+        <span class="btn btn-close p-2" (click)="menuHistoryService.removeHistory(history.name)">
+      </span>
+      </div>
+    </ng-container>
+  </div>
+</div>

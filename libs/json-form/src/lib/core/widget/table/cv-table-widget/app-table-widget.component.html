@@ -1,0 +1,213 @@
+<!--<reference no-default-lib="true"/>-->
+<div [ngStyle]="{ 'max-height' : this.data.maxHeight }" class="mat-table-scroll">
+  <table #table [dataSource]="data.dataSource" [ngClass]="data.tableType? data.tableType : ''" class="w-100" mat-table
+         matSort
+         cdkDropList
+         cdkDropListOrientation="horizontal"
+         (cdkDropListDropped)="changeColumnPositionAfterDrop($event)"
+         matTableExporter
+         #exporter="matTableExporter">
+    <ng-content></ng-content>
+    <ng-container *ngFor="let column of data.columns; let i = index " matColumnDef="{{column.displayColumn}}">
+      <!--normal-->
+      <ng-container *ngIf="!column.type || (cellType.normal === column.type)">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)" scope="col"> {{column.displayHeader}}</th>
+        <td (click)="rowClick(element)" *matCellDef="let element"
+            [ngClass]="getStringCallBackFunction(column.columnCSS, element)" mat-cell>
+					<span [ngClass]="getStringCallBackFunction(column.displayColumnCSS, element)" [matTooltip]="getStringCallBackFunction(column.tooltip, element)">
+            {{element[column.displayColumn] | dynamicPipe : column?.pipe! : column?.pipeArg! }}
+					</span>
+        </td>
+      </ng-container>
+      <!--calculate-->
+      <ng-container *ngIf="cellType.calculate === column.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)" scope="col"> {{column.displayHeader}}</th>
+        <td (click)="rowClick(element)" *matCellDef="let element"
+            [ngClass]="getStringCallBackFunction(column.columnCSS, element)"
+            mat-cell>
+          <ng-container [ngClass]="getStringCallBackFunction(column.displayColumnCSS, element)">
+            {{calcDisplayColumn(element, column.calcDisplayColumn) | dynamicPipe : column?.pipe! : column?.pipeArg! }}
+          </ng-container>
+        </td>
+      </ng-container>
+      <!--check box -->
+      <ng-container *ngIf="cellType.checkBox === column.type">
+        <ng-container *ngIf="column?.checkBox?.withSelectAll">
+          <th *matHeaderCellDef="let row" cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+              [mat-sort-header]="calcSortHeader(column)" scope="col">
+            <mat-checkbox
+              (change)="$event ? selectAll($event, column) : null"
+              [checked]="column?.checkBox?.selection?.hasValue() && isAllSelected(column)"
+              [indeterminate]="column?.checkBox?.selection?.hasValue() && !isAllSelected(column)">
+              {{column.displayHeader}}
+            </mat-checkbox>
+          </th>
+        </ng-container>
+        <ng-container *ngIf="!column?.checkBox?.withSelectAll">
+          <th *matHeaderCellDef [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+              [mat-sort-header]="calcSortHeader(column)" cdkDrag  scope="col"> {{column.displayHeader}}</th>
+        </ng-container>
+        <td *matCellDef="let row" mat-cell>
+          <mat-checkbox (change)="onSelectionChange($event, row, column)"
+                        (click)="$event.stopPropagation()"
+                        [checked]="column?.checkBox?.selection?.isSelected(row) || row[column.displayColumn]"
+                        [disabled]="getBooleanCallBackFunction(column?.checkBox?.disabled, row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <!--image-->
+      <ng-container *ngIf="cellType.image === column.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)"
+            scope="col">
+          {{column.displayHeader}}
+        </th>
+        <td *matCellDef="let row" mat-cell>
+          <img [alt]="column?.image?.alt"
+               [ngStyle]="{ 'width' : (column?.image?.width ? column?.image?.width : '35px'),'height' : (column?.image?.height ? column?.image?.height : '35px')}"
+               [src]="getStringCallBackFunction(column?.image?.src, row)">
+        </td>
+      </ng-container>
+      <!--inner html-->
+      <ng-container *ngIf="cellType.innerHtml === column.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)" scope="col"> {{column.displayHeader}}</th>
+        <td (click)="rowClick(element)" *matCellDef="let element"
+            [innerHTML]="calcDisplayColumn(element, column.calcDisplayColumn)"
+            [ngClass]="getStringCallBackFunction(column.columnCSS, element)"
+            mat-cell></td>
+      </ng-container>
+      <!-- date -->
+      <ng-container *ngIf="cellType.date === column.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)" scope="col"> {{column.displayHeader}}</th>
+        <td (click)="rowClick(element)" *matCellDef="let element"
+            [ngClass]="getStringCallBackFunction(column.columnCSS, element)" mat-cell>
+					<span [ngClass]="getStringCallBackFunction(column.displayColumnCSS, element)" [matTooltip]="getStringCallBackFunction(column.tooltip, element)">
+            {{element[column.displayColumn] | shamsiDate }}
+					</span>
+        </td>
+      </ng-container>
+      <!--icon-->
+      <ng-container *ngIf="cellType.icon === column.type">
+        <th *matHeaderCellDef cdkDrag  [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)" scope="col"> {{column.displayHeader}}</th>
+        <td (click)="rowClick(element)" *matCellDef="let element" mat-cell>
+          <fa-icon [ngClass]="getStringCallBackFunction(column.columnCSS, element)" [icon]="getIconCallBackFunction(column.icon, element)" [size]="iconSize" class="mat-icon-rtl-mirror"></fa-icon>
+        </td>
+      </ng-container>
+      <!--progressbar-->
+      <ng-container *ngIf="cellType.progressBar === column.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)"
+            scope="col">
+          {{column.displayHeader}}
+        </th>
+        <td *matCellDef="let row" mat-cell>
+          <p><ngb-progressbar [type]="getStringCallBackFunction(column.displayColumnCSS, row)" [value]="row[column.displayColumn]" [showValue]="true"></ngb-progressbar></p>
+        </td>
+      </ng-container>
+      <!--nested-->
+      <ng-container *ngIf="cellType.nested === column.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell
+            [mat-sort-header]="calcSortHeader(column)" scope="col"> {{column.displayHeader}}</th>
+        <td (click)="rowClick(element)" *matCellDef="let element" mat-cell>
+          <!--horizontal nested-->
+          <ng-container *ngIf="column?.nestedColumn?.align! === 'horizontal'">
+            <ng-container *ngIf="getIconCallBackFunction(column.icon, element)">
+              <fa-icon [icon]="getIconCallBackFunction(column.icon, element)" [ngClass]="getStringCallBackFunction(column.columnCSS, element)" [size]="asideIconSizeProp" class="mat-icon-rtl-mirror"></fa-icon>
+            </ng-container>
+            <ng-container *ngFor="let item of element[column.nestedColumn!.nestedColumn!]">
+            <span [ngClass]="getStringCallBackFunction(column.displayColumnCSS, element)">
+              {{item[column.displayColumn]}}
+				  	</span>
+            </ng-container>
+          </ng-container>
+          <!--vertical nested-->
+          <ng-container *ngIf="column?.nestedColumn?.align! === 'vertical'">
+            <ng-container *ngIf="getIconCallBackFunction(column.icon, element)">
+              <fa-icon [icon]="getIconCallBackFunction(column.icon, element)" [ngClass]="getStringCallBackFunction(column.columnCSS, element)" [size]="asideIconSizeProp" class="mat-icon-rtl-mirror"></fa-icon>
+            </ng-container>
+            <ng-container *ngFor="let item of element[column.nestedColumn!.nestedColumn!]">
+            <div [ngClass]="getStringCallBackFunction(column.displayColumnCSS, element)">
+              {{item[column.displayColumn]}}
+				  	</div>
+              <br>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+      <!--actions-->
+      <ng-container *ngIf="cellType.action === column.type">
+        <th *matHeaderCellDef cdkDrag [ngClass]="column.headerCSS ? column.headerCSS : ''" class="mat-header-row" mat-header-cell scope="col">
+          {{column.displayHeader}}
+        </th>
+        <td *matCellDef="let element" mat-cell>
+          <div *ngIf="column && column.actions &&  column.actions.length > 0"
+               [ngClass]="'row-cols-' + getActionRowCol(column, element)">
+            <!-- inline action -->
+            <ng-container *ngFor="let action of column.actions">
+              <ng-container *ngIf="action.type === ActionType.inlineTableButton" >
+                <ng-container *hasAuthority="getStringCallBackFunction(action.hasAuthority,action)">
+                  <button
+                    (click)="actionClicked(action['onClick'], element)"
+                    *ngIf="!getBooleanCallBackFunction(action.hide, element)"
+                    [color]=" action.color ?  action.color : 'warn' "
+                    [disabled]="getBooleanCallBackFunction(action['disabled'], element)"
+                    [ngClass]="getBooleanCallBackFunction(action['disabled'], element)? 'image-filter-with-opacity': ''"
+                    [ngStyle]="{ 'color' : action.color}"
+                    mat-icon-button
+                    matTooltip="{{action['tooltip']}}"
+                    type="button">
+                    <fa-icon [icon]="action.icon" class="mat-icon-rtl-mirror"></fa-icon>
+                  </button>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <!--dropDown action -->
+            <ng-container *ngIf="getDropDownAction(column.actions).length>0">
+              <button [mat-menu-trigger-for]="menu" mat-icon-button>
+                <fa-icon class="" [icon]="iconEnum.more"></fa-icon>
+              </button>
+            </ng-container>
+            <mat-menu #menu="matMenu">
+              <ng-container *ngFor="let action of getDropDownAction(column.actions)">
+                <ng-container *hasAuthority="getStringCallBackFunction(action.hasAuthority,action)">
+                  <button
+                    (click)="actionClicked(action['onClick'], element)"
+                    *ngIf="!getBooleanCallBackFunction(action.hide, element)"
+                    [disabled]="getBooleanCallBackFunction(action['disabled'], element)"
+                    [ngClass]="getBooleanCallBackFunction(action['disabled'], element)? 'image-filter-with-opacity': ''"
+                    [ngStyle]="{ 'color' : action.color}"
+                    mat-menu-item
+                    type="button">
+                    <fa-icon [icon]="action.icon" class=""></fa-icon>
+                    <span>{{' ' + action.title}}</span>
+                  </button>
+                </ng-container>
+              </ng-container>
+            </mat-menu>
+          </div>
+        </td>
+      </ng-container>
+    </ng-container>
+    <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" [ngClass]="getStringCallBackFunction(data.rowCSS , row)"
+        [ngStyle]="{'background-color' : getStringCallBackFunction(data.rowColor, row)}"
+        mat-row></tr>
+  </table>
+  <div [hidden]="!data.onPagination">
+    <mat-paginator #paginator
+                   (page)="setPaginationData($event)"
+                   [length]="data.dataSource.totalCount"
+                   [pageSizeOptions]="[10, 15, 20, 25]"
+                   [pageSize]="10"
+                   [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+  <ng-container *ngIf="data.onExport">
+    <button mat-button (click)="exportExcel()">خروجی xlsx </button>
+  </ng-container>
+</div>

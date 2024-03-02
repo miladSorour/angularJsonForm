@@ -1,0 +1,183 @@
+<!-- begin::Header -->
+
+<div class="card-header overflow-auto border-0 px-3 py-0 m-0">
+  <h3 class="card-title align-items-start flex-column">
+    <span class="card-label fw-bolder fs-3 mb-1 text-primary">کارتابل</span>
+  </h3>
+  <div class="card-toolbar">
+    <a class="btn btn-sm text-primary p-0 fw-bold"
+       role="button" (click)="showAllTasks()">
+      همه
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/gen053.svg'"
+        class="svg-icon svg-icon-3 text-primary"
+      ></span>
+    </a>
+  </div>
+</div>
+<!-- end::Header -->
+<!-- begin::Body -->
+<div class="card-body px-3 py-0 m-0">
+  <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#tabUserTasks">
+        کارهای من
+        <span *ngIf="taskCount!==undefined" class="badge pull-right inbox-badge bg-color-blue bg-success margin-right-13">
+          {{taskCount.assignedToUserCount!== undefined ? taskCount.assignedToUserCount : 0}}
+                          </span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#tabGroupTasks">
+        کارهای نقش من
+        <span *ngIf="taskCount!==undefined" class="badge pull-right inbox-badge bg-color-blue bg-success margin-right-13">
+                            {{taskCount.assignedToGroupCount !== null ? taskCount.assignedToGroupCount : 0}}
+                          </span> </a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="tabUserTasks" role="tabpanel">
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table
+          class="table table-row-dashed table-row-gray-300 align-middle gs-0 "
+        >
+          <!-- begin::Table head -->
+          <thead>
+          <tr class="fw-bolder">
+            <th class="text-hover-gray">نام فرآیند</th>
+            <th class="text-hover-gray text-center">تاریخ ارجاع</th>
+            <th class="text-hover-gray text-center">وضعیت فرآِیند</th>
+            <th class="text-hover-gray text-center">عملیات</th>
+          </tr>
+          </thead>
+          <!-- end::Table head -->
+          <!-- begin::Table body -->
+          <tbody *ngIf="userTasks" class="overflow-scroll">
+          <tr *ngFor="let item of userTasks;" class="text-center m-0 p-0">
+            <td class="m-1 p-1">
+              <div class=" align-items-center">
+                <div class="d-flex align-items-center">
+                  <div>
+                    <span class="bullet bullet-vertical h-40px bg-primary me-3"></span>
+                  </div>
+                  <div>
+                    <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">
+                      {{item.processName}}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="m-1 p-1">
+              <a
+                href="#"
+                class="text-dark fw-bolder text-hover-primary d-block fs-6"
+              >
+                {{item.createTime}}
+              </a>
+            </td>
+            <td class="text-bolder fw-bolder">
+              <div>
+                <span class="badge badge-light-success min-w-60px">   {{item.name}} </span>
+              </div>
+            </td>
+            <td class="m-1 p-1">
+              <div class="d-flex justify-content-center flex-shrink-0">
+                <a
+                  (click)="showConfirmModal(item)"
+                  class="
+                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                "
+                >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/arrows/arr095.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                ></span>
+                </a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+          <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+      </div>
+    </div>
+    <div class="tab-pane fade" id="tabGroupTasks" role="tabpanel">
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table
+          class="table table-row-dashed table-row-gray-300 align-middle gs-0 "
+        >
+          <!-- begin::Table head -->
+          <thead>
+          <tr class="fw-bolder">
+            <th class="text-hover-gray">نام فرآیند</th>
+            <th class="text-hover-gray text-center">تاریخ ارجاع</th>
+            <th class="text-hover-gray text-center">وضعیت فرآِیند</th>
+            <th class="text-hover-gray text-center">عملیات</th>
+          </tr>
+          </thead>
+          <!-- end::Table head -->
+          <!-- begin::Table body -->
+          <tbody *ngIf="groupTasks" class="overflow-scroll">
+          <tr *ngFor="let item of groupTasks;" class="text-center m-0 p-0">
+            <td class="m-1 p-1">
+              <div class=" align-items-center">
+                <div class="d-flex flex-row">
+                  <div>
+                    <span class="bullet bullet-vertical h-40px bg-primary me-3"></span>
+                  </div>
+                  <div>
+                    <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">
+                      {{item.processName}}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="m-1 p-1">
+              <a
+                href="#"
+                class="text-dark fw-bolder text-hover-primary d-block fs-6"
+              >
+                {{item.createTime}}
+              </a>
+            </td>
+            <td class="text-bolder fw-bolder">
+              <div>
+                <span class="badge badge-light-success min-w-60px">   {{item.name}} </span>
+              </div>
+            </td>
+            <td class="m-1 p-1">
+              <div class="d-flex justify-content-center flex-shrink-0">
+                <a
+                  (click)="showConfirmModal(item)"
+                  class="
+                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                "
+                >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/arrows/arr095.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                ></span>
+                </a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+          <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

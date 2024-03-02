@@ -1,0 +1,42 @@
+{
+  "/api": {
+    "target": "http://192.168.100.16:8089",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/camunda": {
+    "target": "http://192.168.100.16:8089",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/login": {
+    "target": "http://192.168.100.16:8089",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/logout": {
+    "target": "http://192.168.100.16:8089",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/captcha": {
+    "target": "http://192.168.100.16:8089",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/impersonate": {
+    "target": "http://192.168.100.16:8089",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/websocket": {
+    "target": "http://192.168.100.16:8089",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/oauth2": {
+    "target": "http://192.168.100.16:8089",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

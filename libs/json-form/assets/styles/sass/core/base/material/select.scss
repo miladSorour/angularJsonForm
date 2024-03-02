@@ -1,0 +1,15 @@
+.mat-mdc-select-value {
+    color: var(--kt-table-active-color) !important;
+  }
+  
+  .mat-mdc-select-placeholder {
+    color: var(--kt-table-caption-color) !important;
+  }
+  
+  .mat-mdc-select-disabled .mat-mdc-select-value {
+    color: var(--kt-table-caption-color) !important;
+  }
+  
+  .mat-mdc-select-arrow {
+    color: var(--kt-table-active-color) !important;
+  }

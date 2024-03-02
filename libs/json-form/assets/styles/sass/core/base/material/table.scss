@@ -1,0 +1,29 @@
+.mat-mdc-table {
+    background: var(--kt-table-bg) !important;
+  }
+  
+  .mat-mdc-table thead, .mat-mdc-table tbody, .mat-mdc-table tfoot,
+  mat-header-row, mat-row, mat-footer-row,
+  [mat-header-row], [mat-row], [mat-footer-row],
+  .mat-mdc-table-sticky {
+    background: var(--kt-table-bg) !important;
+  }
+  
+  
+  .mat-mdc-header-cell {
+    color: var(--kt-table-active-color) !important;
+  }
+  
+  .mat-mdc-cell, .mat-mdc-footer-cell {
+    color: var(--kt-table-active-color) !important;
+  }
+  
+  mat-row, mat-header-row, mat-footer-row,
+  th.mat-mdc-header-cell, td.mat-mdc-cell, td.mat-mdc-footer-cell {
+    border-bottom-color: var(--kt-table-border-color) !important;
+  }
+    
+  .mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline {
+    color: var(--kt-table-border-color) !important;
+  }
+    

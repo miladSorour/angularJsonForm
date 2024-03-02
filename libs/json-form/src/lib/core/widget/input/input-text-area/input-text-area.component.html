@@ -1,0 +1,28 @@
+<form [formGroup]="inputForm">
+  <mat-form-field style="width: 100%">
+    <mat-label>{{placeholder}}</mat-label>
+    <textarea (blur)="onBlur($event)"
+              (input)="inputChange()"
+              [(ngModel)]="value"
+              [matTooltip]="tooltip"
+              [maxlength]="maxlength"
+              [minlength]="minlength"
+              [readonly]="isReadOnly"
+              [required]="isRequired || isInputControlRequired"
+              cols="35"
+              formControlName="myInput"
+              matInput
+              rows="1"
+    >
+    </textarea>
+    <mat-error *ngIf="isControlHasError('myInput','bizError')">
+      {{this.inputForm.controls.myInput.getError('bizError').message}}
+    </mat-error>
+    <mat-error *ngIf="isParentControlHasError('required')">
+      {{placeholder}} <strong>{{ 'اجباری می باشد' }}</strong>.
+    </mat-error>
+    <mat-error *ngIf="isControlHasError('myInput','pattern')">
+      الگوی ورود اطلاعات برای  {{placeholder}} رعایت نشده است.
+    </mat-error>
+  </mat-form-field>
+</form>

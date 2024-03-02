@@ -1,0 +1,53 @@
+<form  [formGroup]="inputForm">
+    <div class="row col-12 align-items-center text-center border border-dotted border-4 rounded m-0 py-2">
+        <div class="col-3">
+          <img
+               class="img-fluid rounded-circle"
+               [src]="'api/attachment/front/getFile/' + value" alt="file-uploader"
+               onError="this.src='assets/media/icons/duotune/files/fil022.svg';">
+        </div>
+        <div class="d-none col-12">
+          <span class="text-gray-500 text-hover-dark cursor-pointer fw-bold">فایل های خود را بارگذاری کنید</span>
+        </div>
+        <div class="row col-9 flex-stack">
+          <input formControlName="myInput" type="file"
+                  #fileInputElement
+                  (change)="fileReader($event)"
+                  style="display:none;">
+          <div *ngIf="showFileName === true">
+            <label class="col-md-2 form-label">نام فایل</label>
+            <div class="col-md-4" style="margin-left: 25px;">
+              <label class="form-control">{{fileName}}</label>
+            </div>
+          </div>
+          <div class="col d-flex align-items-center">
+            <a
+              [class]="'btn btn-sm btn-light-success fw-bolder Op-UpRemove'"
+              [class.disabled]="disabled"
+              id="person_image"
+              (click)="openFileChosserDialog()"
+              style="margin-right: 0 !important;">
+              {{uploadButtonName}}
+            </a>
+              <img #imagePreview id="preview" style="width: 30px; height: 30px; margin-right: 20px;" class="d-none" alt=""/>
+          </div>
+          <div *ngIf="showRemove === true " class="Op-UpRemove col-4">
+            <a [class]="'btn btn-sm btn-light-danger fw-bolder Op-UpRemove'" (click)="delete()"
+               [class.disabled]="disabled" style="margin-right: 0 !important;">
+              {{removeButtonName}}
+            </a>
+          </div>
+          <div *ngIf="showDownload === true" class="Op-UpRemove col-4">
+            <a [class]="'btn btn-sm btn-light-warning fw-bolder Op-UpRemove'" (click)="downloadFileByFileCode()"
+               [attr.href]="(fileCode === '-1' || fileCode === '0')? '#' : urlHref"
+               [class.disabled]="disabled" target="_blank"
+               style="margin-right: 0 !important;">
+              {{downloadButtonName}}
+            </a>
+          </div>
+        </div>
+        <div class="d-none col-12">
+          <p class="text-danger cursor-pointer fw-bold fs-9">حداکثر اندازه فایل: 5mb</p>
+        </div>
+    </div>
+</form>

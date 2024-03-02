@@ -1,0 +1,37 @@
+<form [formGroup]="inputForm">
+  <ng-container *ngIf="!isMultiple">
+    <mat-form-field style="width: 100%">
+      <mat-label>{{placeholder}}</mat-label>
+      <mat-select
+        (blur)="onBlur($event)"
+        (selectionChange)="onSelectionChange($event)"
+        [(ngModel)]="viewValue"
+        [disabled]="disabled"
+        [required]="required"
+        formControlName="myInput">
+        <mat-option (click)="clearInput()">--</mat-option>
+        <mat-option *ngFor="let enums of appEnumModel" [value]="enums.index">
+          {{enums.persianTitle}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+  <ng-container *ngIf="isMultiple">
+    <mat-form-field style="width: 100%">
+      <mat-label>{{placeholder}}</mat-label>
+      <mat-select
+        (blur)="onBlur($event)"
+        (selectionChange)="onSelectionChange($event)"
+        [(ngModel)]="viewValue"
+        [disabled]="disabled"
+        [required]="required"
+        formControlName="myInput"
+        multiple>
+        <mat-option (click)="clearInput()">--</mat-option>
+        <mat-option *ngFor="let enums of appEnumModel" [value]="enums.index">
+          {{enums.persianTitle}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+</form>

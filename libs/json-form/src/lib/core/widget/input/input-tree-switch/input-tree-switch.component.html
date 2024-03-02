@@ -1,0 +1,13 @@
+<form [formGroup]="inputForm">
+  <div class="container">
+    <div class="switch">
+      <input type="radio" name="switch" id="switch1" value="true" formControlName="myInput" name="myInput" [(ngModel)]="value">
+      <label for="switch1"><span>{{activeLabel}}</span></label>
+      <input type="radio" name="switch" id="switch2" value="" formControlName="myInput" name="myInput" [(ngModel)]="value" checked>
+      <label for="switch2"><span>{{anyLabel}}</span></label>
+      <input type="radio" name="switch" id="switch3" value="false" formControlName="myInput" name="myInput" [(ngModel)]="value" >
+      <label for="switch3"><span>{{inActiveLabel}}</span></label>
+      <div class="slider"></div>
+    </div>    
+  </div>
+</form>

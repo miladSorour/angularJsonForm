@@ -1,0 +1,322 @@
+<form [formGroup]="data.formGroup">
+  <ng-container *ngTemplateOutlet="InputsTemplate; context: {control,dataForm:data,customClass:'px-3 py-2'}"></ng-container>
+<ng-container *ngIf="data.actionsDisplay===undefined?true:data.actionsDisplay">
+  <ng-container *ngFor="let action of data.actions">
+    <button mat-raised-button
+            style="margin: 5px"
+            [color]="action['color'] ? action['color'] : 'primary'"
+            [disabled]="getBooleanCallBackFunction(action?.disabled, data.formGroup)"
+            (click)="action.onClick(data.formGroup)">
+      {{action.title}}
+    </button>
+  </ng-container>
+</ng-container>
+
+<ng-template #InputsTemplate let-controlValue="control" let-dataForm="dataForm" let-customClass="customClass">
+  <div fxLayout="row wrap">
+    <ng-container *ngFor="let tile of controlValue">
+      <ng-container *ngIf="!getBooleanCallBackFunction(tile.hide, data.formGroup, false)">
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.string.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-string [placeholder]="tile.placeholder"
+                              [formControlName]="tile.name"
+                              [appFormConfig]="dataForm"
+                              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+                              (blur)="tile.onBlur ? tile.onBlur($event) : ''"
+                              [minlength]="tile.minlength"
+                              [maxlength]="tile.maxlength">>
+            </app-input-string>
+          </div>
+        </ng-container>
+        <!--password-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.password.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-password [placeholder]="tile.placeholder"
+                              [formControlName]="tile.name"
+                              [appFormConfig]="dataForm"
+                              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+                              (blur)="tile.onBlur ? tile.onBlur($event) : ''">
+            </app-input-password>
+          </div>
+        </ng-container>
+        <!--text-area-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.textArea.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-text-area [placeholder]="tile.placeholder"
+                                 [formControlName]="tile.name"
+                                 [appFormConfig]="dataForm"
+                                 [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+                                 (blur)="tile.onBlur ? tile.onBlur($event) : ''">
+            </app-input-text-area>
+          </div>
+        </ng-container>
+        <!--number-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.number.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-number [placeholder]="tile.placeholder"
+                              [formControlName]="tile.name"
+                              [appFormConfig]="dataForm"
+                              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+                              (blur)="tile.onBlur?tile.onBlur($event):''"
+                              [min]="tile.min"
+                              [max]="tile.max">
+            </app-input-number>
+          </div>
+        </ng-container>
+        <!--color-->
+         <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.color.name">
+           <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+             <app-input-color [placeholder]="tile.placeholder"
+                              [formControlName]="tile.name"
+                              [appFormConfig]="dataForm"
+                              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+                              (blur)="tile.onBlur?tile.onBlur($event):''">
+             </app-input-color>
+           </div>
+         </ng-container>        
+        <!--switch-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.switch.name">
+          <div [ngClass]="'col-lg-' + tile.cols +  ' p-2 ' + 'mt-10 ' + 'text-align-center'" >
+            <app-input-switch [placeholder]="tile.placeholder" [formControlName]="tile.name"
+                              [appFormConfig]="dataForm"
+                              (blur)="tile.onBlur?tile.onBlur($event):''"></app-input-switch>
+          </div>
+        </ng-container>
+        <!--checkbox-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.checkbox.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-checkbox [placeholder]="tile.placeholder"
+                                [appFormConfig]="dataForm"
+                                [formControlName]="tile.name"
+                                [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+                                (blur)="tile.onBlur?tile.onBlur($event):''">
+            </app-input-checkbox>
+          </div>
+        </ng-container>
+        <!--enum-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.enum.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-enum [placeholder]="tile.placeholder"
+                            [appFormConfig]="dataForm"
+                            [enumXPath]="tile.enumXPath"
+                            [formControlName]="tile.name"
+                            [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+                            (blur)="tile.onBlur ? tile.onBlur($event) : ''">
+            </app-input-enum>
+          </div>
+        </ng-container>
+        <!--baseInfo-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.baseInfo.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-base-information
+              [appFormConfig]="dataForm"
+              [headerId]="tile.headerId()"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur ? tile.onBlur($event) : ''"
+            ></app-input-base-information>
+          </div>
+        </ng-container>
+        <!--baseInfoTree-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.baseInfoTree.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-base-information-tree
+              [appFormConfig]="dataForm"
+              [headerId]="tile.headerId()"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur ? tile.onBlur($event) : ''"
+            ></app-input-base-information-tree>
+          </div>
+        </ng-container>
+        <!--base info header-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.baseInfoHeader.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-base-information-header
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              (blur)="tile.onBlur ? tile.onBlur($event) :''"
+              [appFormConfig]="dataForm"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+            ></app-input-base-information-header>
+          </div>
+        </ng-container>
+        <!--location-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.location.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-location
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              (blur)="tile.onBlur ? tile.onBlur($event) :''"
+              [appFormConfig]="dataForm"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+            ></app-input-location>
+          </div>
+        </ng-container>
+        <!--organization-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.organization.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <ac-input-organization
+              [appFormConfig]="dataForm"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur?tile.onBlur($event):''"
+            ></ac-input-organization>
+          </div>
+        </ng-container>
+            <!--custom-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.custom.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-custom
+              [appFormConfig]="dataForm"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur?tile.onBlur($event):''"
+            ></app-input-custom>
+          </div>
+        </ng-container>
+        <!--group-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.group.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <ac-input-group
+              [appFormConfig]="dataForm"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [groupType]="tile.groupType"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur?tile.onBlur($event):''"
+            ></ac-input-group>
+          </div>
+        </ng-container>
+        <!--personnel-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.personnel.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-personnel
+              [appFormConfig]="dataForm"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur?tile.onBlur($event):''"
+            ></app-input-personnel>
+          </div>
+        </ng-container>
+        <!--role-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.role.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-role
+              [appFormConfig]="dataForm"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              (blur)="tile.onBlur?tile.onBlur($event):''"
+            ></app-input-role>
+          </div>
+        </ng-container>
+        <!--users-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.users.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-users
+              [appFormConfig]="dataForm"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur?tile.onBlur($event):''"
+            ></app-input-users>
+          </div>
+        </ng-container>
+        <!--file-uploader-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.fileUploader.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-file-uploader
+              [appFormConfig]="dataForm"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)">
+            </app-file-uploader>
+          </div>
+        </ng-container>
+        <!--date-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.dateAndTime.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <input-date
+              [appFormConfig]="dataForm"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur?tile.onBlur($event):''"
+            ></input-date>
+          </div>
+        </ng-container>
+         <!--toggle-group-->
+         <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.treeSwitch.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' ' + customClass" >
+            <app-input-tree-switch
+              [appFormConfig]="dataForm"
+              [placeholder]="tile.placeholder"
+              [formControlName]="tile.name"
+              [disabled]="getBooleanCallBackFunction(tile.onDisabled, data.formGroup, false)"
+              (blur)="tile.onBlur?tile.onBlur($event):''"
+              [labelsGroup]="tile.labelsGroup"
+            ></app-input-tree-switch>
+          </div>
+        </ng-container>
+        <!-- app-divider-widget -->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.divider.name">
+          <div [ngClass]="'col-12'" >
+            <app-divider-widget
+            [appDataConfig]="tile"
+            ></app-divider-widget>
+          </div>
+        </ng-container>
+        <!-- app-input-form-array-widget -->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.formArray.name">
+          <div [ngClass]="'col-12'" >
+            <app-input-form-array-template
+            [formControlName]="tile.name"
+            [appFormConfig]="tile.formArray"
+            ></app-input-form-array-template>
+          </div>
+        </ng-container>
+        <!-- formControl widget-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.formControl.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' px-3 py-2'" >
+            <ng-container *ngTemplateOutlet="InputsTemplate; context: {control:tile.formControl,dataForm:{formGroup:tile.formGroup,formControl:tile.formControl},customClass:'px-1'}"></ng-container>
+          </div>
+        </ng-container>
+        <!-- accordion widget-->
+        <ng-container *ngIf="tile.inputType.name === widgetTypeEnum.accordion.name">
+          <div [ngClass]="'col-lg-' + tile.cols + '  col-md-6' +  ' px-3 py-2'">
+            <p-toolbar *ngIf="tile.accordion && tile.accordion.length > 0">
+              <button mat-icon-button *ngIf="!accordionToggleMode" (click)="accordionToggle()" class="material-icons-outlined" matTooltip="باز کردن" matSuffix>
+                <fa-icon [icon]="iconEnum.squarePlus"></fa-icon>
+              </button>
+              <button mat-icon-button *ngIf="accordionToggleMode" (click)="accordionToggle()" class="material-icons-outlined" matTooltip="بستن" matSuffix>
+                <fa-icon [icon]="iconEnum.squareMinus"></fa-icon>
+              </button>
+            </p-toolbar>
+            <mat-accordion class="example-headers-align" multi>
+              <ng-container *ngFor="let expansion of tile.accordion; let i = index">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>{{expansion.title}}</mat-panel-title>
+                    <ng-container *ngIf="expansion.description">
+                      <mat-panel-description>{{expansion.description}}</mat-panel-description>
+                    </ng-container>
+                  </mat-expansion-panel-header>
+                  <ng-container
+                    *ngTemplateOutlet="InputsTemplate; context: {control:expansion.panel,customClass:'px-3 py-2',dataForm:{formGroup:tile.formGroup,formControl:expansion.panel}}"></ng-container>
+                </mat-expansion-panel>
+              </ng-container>
+            </mat-accordion>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+  </div>
+
+</ng-template>
+
+</form>

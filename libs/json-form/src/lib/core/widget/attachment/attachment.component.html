@@ -1,0 +1,29 @@
+<div class="mt-1">
+  <form class="form-horizontal" name="attachmentForm" role="form">
+    <fieldset class="panel-body">
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <ngx-dropzone (change)="onSelect($event)"
+                        style="max-width: calc(100vw - 300px);height: 185px !important;">
+            <ngx-dropzone-label>برای انتخاب فایل کلیک کنید</ngx-dropzone-label>
+            <div *ngFor="let f of files">
+              <ngx-dropzone-image-preview (removed)="onRemove(f)"
+                                          *ngIf="f.type.includes('image')" [file]="f"
+                                          [removable]="true">
+              </ngx-dropzone-image-preview>
+              <ngx-dropzone-preview (removed)="onRemove(f)" *ngIf="!f.type.includes('image')" [file]="f"
+                                    [removable]="true">
+                <ngx-dropzone-label>{{f.name}}</ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </div>
+          </ngx-dropzone>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+<ng-container >
+  <app-json-form *ngIf="data"
+                 [containerList]="containerEdit">
+  </app-json-form>
+</ng-container>

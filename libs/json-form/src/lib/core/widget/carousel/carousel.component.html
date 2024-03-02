@@ -1,0 +1,10 @@
+<ngb-carousel *ngIf="carousel.length > -1">
+  <ng-template *ngFor="let carouseItem of carousel; let i = index" id="{{i}}" ngbSlide>
+    <div class="picsum-img-wrapper h-275px">
+      <img [src]="'/api/attachment/front/getFile/'+ carouseItem.fileCode" class="h-100 w-100 img-fluid rounded rounded-2" alt="Carousel Item">
+    </div>
+    <div class="carousel-caption">
+      <h3>{{carouseItem.title}}</h3>
+    </div>
+  </ng-template>
+</ngb-carousel>

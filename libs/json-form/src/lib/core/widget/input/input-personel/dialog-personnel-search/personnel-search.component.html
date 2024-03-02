@@ -1,0 +1,17 @@
+<div class="d-flex flex-stack">
+  <div>
+<h1 mat-dialog-title>
+  پرسنل
+</h1>
+  </div>
+  <div>
+  <ng-container class="justify-content-end">
+    <button mat-button>جستجو</button>
+    <button mat-button>پاک کردن</button>
+  <button [mat-dialog-close]="" cdkFocusInitial mat-button>بستن</button>
+  </ng-container>
+  </div>
+</div>
+<div mat-dialog-content>
+  <app-json-form *ngIf="containerList && containerList.length > 0" [containerList]="containerList"></app-json-form>
+</div>

@@ -1,0 +1,29 @@
+<mat-card class="example-card tw-my-3 tw-mx-2">
+  <mat-card-header>
+    <mat-card-title class="tw-pb-2"><span>{{ appFormConfig.formTitle }}</span></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      <div class="row tw-cursor-move" *ngFor="let formConfig of inputFormArrayConfig.appFormConfigs;index as index;trackBy: trackById" cdkDrag>
+        <div [ngClass]="'col-' + formConfig.cols">
+          <app-form-widget [data]="formConfig"></app-form-widget>
+        </div>
+        <ng-container *ngIf="!formConfig.actionsDisplay">
+          <div class="col">
+            <div class="tw-flex tw-pt-4">
+              <ng-container *ngFor="let action of formConfig.actions;">
+                <button *ngIf="action.hide? hideAction(action,index,action.hide):'true'" mat-mini-fab
+                  [color]="action.color" aria-label="Example icon button with a menu icon" class="tw-ml-2"
+                  (click)="action.onClick ? actionClick(formConfig,index,action.onClick) : ''">
+                  <mat-icon><fa-icon [icon]="action.icon"></fa-icon></mat-icon>
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+        <mat-divider></mat-divider>
+      </div>  
+    </div>
+  </mat-card-content>
+  <mat-card-actions> </mat-card-actions>
+</mat-card>

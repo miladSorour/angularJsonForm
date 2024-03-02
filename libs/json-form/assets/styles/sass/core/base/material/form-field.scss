@@ -1,0 +1,53 @@
+.mat-mdc-form-field {
+  --mdc-filled-text-field-caret-color: var(--kt-form-check-mat-input-focus-border);
+  --mdc-filled-text-field-focus-active-indicator-color: var(--kt-form-check-mat-input-focus-border);
+  --mdc-filled-text-field-focus-label-text-color: var(--kt-form-check-mat-input-focus-border);
+  --mdc-outlined-text-field-caret-color: var(--kt-form-check-mat-input-focus-border);
+  --mdc-outlined-text-field-focus-outline-color: var(--kt-form-check-mat-input-focus-border);
+  --mdc-outlined-text-field-focus-label-text-color: var(--kt-form-check-mat-input-focus-border);
+  // --mdc-filled-text-field-container-color: whitesmoke;
+  // --mdc-filled-text-field-disabled-container-color: #fafafa;
+  --mdc-filled-text-field-label-text-color: var(--kt-input-placeholder-color);
+  --mdc-filled-text-field-disabled-label-text-color: var(--kt-input-placeholder-color);
+  --mdc-filled-text-field-input-text-color: var(--kt-table-hover-color);
+  --mdc-filled-text-field-disabled-input-text-color: var(--kt-input-placeholder-color);
+  --mdc-filled-text-field-input-text-placeholder-color: var(--kt-input-placeholder-color);
+  --mdc-filled-text-field-error-focus-label-text-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-filled-text-field-error-label-text-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-filled-text-field-error-caret-color: var(--kt-form-check-mat-input-invalid-border);
+  // --mdc-filled-text-field-active-indicator-color: rgba(0, 0, 0, 0.42);
+  --mdc-filled-text-field-disabled-active-indicator-color: var(--kt-table-border-color);
+  --mdc-filled-text-field-hover-active-indicator-color: var(--kt-table-hover-color);
+  --mdc-filled-text-field-error-active-indicator-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-filled-text-field-error-focus-active-indicator-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-filled-text-field-error-hover-active-indicator-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-outlined-text-field-label-text-color: var(--kt-table-hover-color);
+  --mdc-outlined-text-field-disabled-label-text-color: var(--kt-input-placeholder-color);
+  --mdc-outlined-text-field-input-text-color: var(--kt-table-hover-color);
+  --mdc-outlined-text-field-disabled-input-text-color: var(--kt-input-placeholder-color);
+  --mdc-outlined-text-field-input-text-placeholder-color: var(--kt-input-placeholder-color);
+  --mdc-outlined-text-field-error-caret-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-outlined-text-field-error-focus-label-text-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-outlined-text-field-error-label-text-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-outlined-text-field-outline-color: var(--kt-table-border-color);
+  --mdc-outlined-text-field-disabled-outline-color: var(--kt-table-border-color);
+  --mdc-outlined-text-field-hover-outline-color: var(--kt-table-hover-color);
+  --mdc-outlined-text-field-error-focus-outline-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-outlined-text-field-error-hover-outline-color: var(--kt-form-check-mat-input-invalid-border);
+  --mdc-outlined-text-field-error-outline-color: var(--kt-form-check-mat-input-invalid-border);
+  --mat-form-field-disabled-input-text-placeholder-color: var(--kt-input-placeholder-color);
+  --mat-form-field-container-text-size: 14px;
+  --mat-form-field-container-text-tracking: 0.03125em;
+  --mat-form-field-container-text-weight: 400;
+  --mat-form-field-outlined-label-text-populated-size: 14px;
+  --mat-form-field-subscript-text-line-height: 20px;
+  --mat-form-field-subscript-text-size: 12px;
+  --mat-form-field-subscript-text-tracking: 0.0333333333em;
+  --mat-form-field-subscript-text-weight: 400;
+  --mat-form-field-container-text-line-height: 17px; 
+  --mdc-theme-text-primary-on-background: 
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix{
+   padding-bottom: 0 !important;
+}

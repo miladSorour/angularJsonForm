@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="card-header pt-5">
+    <div class="card-title">
+      <ng-container *ngIf="data.pageEditMode===undefined"><h1 class="fs-3 fw-bolder">{{data.pageTitle}}</h1></ng-container>
+      <ng-container *ngIf="data.pageEditMode===false"><h1 class="fs-3 fw-bolder">{{data.pageTitle.new}}</h1></ng-container>
+      <ng-container *ngIf="data.pageEditMode===true"><h1 class="fs-3 fw-bolder">{{data.pageTitle.edit}}</h1></ng-container>
+    </div>
+    <div>
+      <div class="card-toolbar">
+        <div class="d-flex align-items-center py-1">
+          <!-- begin::Button  -->
+          <app-button *ngIf="data.actions && data.actions.length > 0" [data]="data.actions"></app-button>
+          <!-- end::Button  -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="collapse" id="searchBox">
+      <div class="card card-body">
+        <app-json-form *ngIf="data.searchBoxContainer && data.searchBoxContainer.length > 0" [containerList]="data.searchBoxContainer"></app-json-form>
+      </div>
+    </div>
+    <app-json-form *ngIf="data.container && data.container.length > 0" [containerList]="data.container"></app-json-form>
+  </div>
+</div>

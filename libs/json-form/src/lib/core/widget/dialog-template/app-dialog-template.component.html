@@ -1,0 +1,18 @@
+<div class="d-flex flex-stack">
+  <div>
+    <h1 mat-dialog-title>
+      {{data.pageTitle}}
+    </h1>
+  </div>
+  <div>
+    <ng-container class="justify-content-end">
+      <app-button *ngIf="data.actions && data.actions.length > 0" [data]="data.actions"></app-button>
+      <button [mat-dialog-close]="" cdkFocusInitial class="me-1" mat-button>بستن</button>
+    </ng-container>
+  </div>
+</div>
+
+<div mat-dialog-content>
+  <app-json-form *ngIf="data.container && data.container.length > 0" [containerList]="data.container"></app-json-form>
+</div>
+

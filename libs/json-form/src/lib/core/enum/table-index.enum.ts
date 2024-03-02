@@ -1,0 +1,5 @@
+export enum TableIndexEnum {
+  INQUIRY = 100,
+  REQUEST_FORENSIC_OPERATIONS = 101,
+  FORENSIC_RELATED_ITEMS = 102
+}
